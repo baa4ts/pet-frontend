@@ -1,5 +1,5 @@
 import { createAuthClient } from "better-auth/react"
-import { adminClient } from "better-auth/client/plugins"
+import { adminClient, inferAdditionalFields } from "better-auth/client/plugins"
 
 const Cliente = createAuthClient({
     
@@ -12,7 +12,14 @@ const Cliente = createAuthClient({
      * Plugins de better-auth
      */
     plugins: [
-        adminClient()
+        adminClient(),
+        inferAdditionalFields({
+            user: {
+                permisos: {
+                    type: "string",
+                },
+            },
+        }),
     ],
 })
 
@@ -21,7 +28,4 @@ const Cliente = createAuthClient({
  */
 export type Session = typeof Cliente.$Infer.Session
 
-/**
- * Exportar metodos del cliente
- */
-export const { signIn, signUp, useSession } = Cliente
+export { Cliente }

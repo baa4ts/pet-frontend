@@ -5,9 +5,9 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { signUp } from '@/configuracion/Cliente'
 
 import { useNavigate } from 'react-router'
+import { Cliente } from '@/configuracion/Cliente'
 
 const RegisterPage = () => {
     const navigate = useNavigate()
@@ -19,11 +19,13 @@ const RegisterPage = () => {
             password: '',
         },
         onSubmit: async ({ value }) => {
-            await signUp.email({
+            await Cliente.signUp.email({
                 name: value.name,
                 email: value.email,
                 password: value.password,
             },
+                // Docs
+                // https://better-auth.com/docs/basic-usage#sign-in
                 {
                     onSuccess: () => {
                         navigate('/perfil')

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { signIn } from '@/configuracion/Cliente'
+import { Cliente } from '@/configuracion/Cliente'
 import { Checkbox } from '@/components/ui/checkbox'
 
 const LoginPage = () => {
@@ -18,7 +18,7 @@ const LoginPage = () => {
             rememberMe: false,
         },
         onSubmit: async ({ value }) => {
-            await signIn.email({
+            await Cliente.signIn.email({
                 email: value.email,
                 password: value.password,
                 rememberMe: value.rememberMe,
