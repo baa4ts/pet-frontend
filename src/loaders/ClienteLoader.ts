@@ -10,9 +10,13 @@ export async function requiereSession() {
 }
 
 export async function requiereSinSession() {
-    const session = await Cliente.getSession()
-
-    if (session.data) {
-        throw redirect('/usuario')
+    try {
+        const session = await Cliente.getSession()
+        if (session.data) {
+            throw redirect('/perfil')
+        }
+    } catch (e) {
+        if (e instanceof Response) throw e
+        // TODO: Ingorar el fallo
     }
 }

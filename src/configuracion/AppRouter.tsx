@@ -4,66 +4,76 @@ import { requiereSession, requiereSinSession } from "@/loaders/ClienteLoader";
 import HomePage from "../paginas/HomePage";
 import LoginPage from "@/paginas/Autenticacion/LoginPage";
 import RegisterPage from "@/paginas/Autenticacion/RegisterPage";
-import Perfil from "@/paginas/Usuario/Perfil";
-import Televisor from "@/paginas/Televisor/Televisor";
+import Perfil from "@/paginas/Perfil/Perfil";
 import LayoutDashboard from "@/paginas/Administracion/LayoutDashboard";
 
 export const AppRouter = createBrowserRouter([
+
+    /**
+     * Punto de entrada de la web
+     */
     {
         index: true,
         element: <HomePage />
     },
+
+    /**
+     * Seccion para registro y login
+     */
     {
         path: "/autenticacion",
         loader: requiereSinSession,
         children: [
-            // Login
+
+            /**
+             * Redireccion por seguridad
+             */
+            {
+                index: true,
+                loader: () => redirect("/autenticacion/login")
+            },
+
+            /**
+             * Login
+             */
             {
                 path: "login",
                 element: <LoginPage />
             },
-            // Registro
+
+            /**
+             * Register
+             */
             {
                 path: "register",
                 element: <RegisterPage />
-            },
-
-            /**
-             * Redireccion automatica al login
-             */
-            {
-                index: true,
-                path: "*",
-                loader: () => redirect("/autenticacion/login")
-            },
-        ]
-    },
-    /**
-     * Seccion para usuarios
-     */
-    {
-        path: "/perfil",
-        children: [
-            {
-                index: true,
-                loader: requiereSession,
-                element: <Perfil />
             }
         ]
     },
+
+
     /**
-     * Seccion para el TV
+     * Seccion para el perfil del usuario
      */
     {
-        path: "/tv",
-        element: <Televisor />
+        path: "/perfil",
+        loader: requiereSession,
+        element: <Perfil />
     },
+
+
     /**
-     * Seccion dashboard y estadisticas
+     * Seccion administrativa. dashboard y estadisticas
      */
     {
         path: "/dashboard",
         loader: requiereSession,
-        element: <LayoutDashboard />
+        element: <LayoutDashboard />,
+        children: [
+            {
+                index: true,
+                element: <h1>Hola</h1>
+            }
+        ]
     }
 ])

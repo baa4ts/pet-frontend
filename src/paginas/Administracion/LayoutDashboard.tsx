@@ -1,11 +1,16 @@
+import { AppSidebar } from '@/components/shared/DashboradSideBar'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { Outlet } from 'react-router'
 
 const LayoutDashboard = () => {
   return (
-    <>
-      <h1>Hola</h1>
-      <Outlet />
-    </>
+    <SidebarProvider>
+      <AppSidebar />
+      <main className='flex flex-col flex-1'>
+        <SidebarTrigger />
+        <Outlet />
+      </main>
+    </SidebarProvider>
   )
 }
 
