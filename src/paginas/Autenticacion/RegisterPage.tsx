@@ -5,8 +5,13 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { signUp } from '@/configuracion/Cliente'
+
+import { useNavigate } from 'react-router'
 
 const RegisterPage = () => {
+    const navigate = useNavigate()
+
     const form = useForm({
         defaultValues: {
             name: '',
@@ -14,11 +19,22 @@ const RegisterPage = () => {
             password: '',
         },
         onSubmit: async ({ value }) => {
-            // await authClient.signUp.email({ name: value.name, email: value.email, password: value.password })
-            console.log(value)
+            await signUp.email({
+                name: value.name,
+                email: value.email,
+                password: value.password,
+            },
+                {
+                    onSuccess: () => {
+                        navigate('/perfil')
+                    },
+                    onError: (ctx) => {
+                        alert(ctx.error.message)
+                    },
+                }
+            )
         },
     })
-
     return (
         <section className='w-full h-full flex items-center justify-center'>
             <Card className='w-90'>
@@ -26,6 +42,8 @@ const RegisterPage = () => {
                     <CardTitle className='text-center'>Registrarse</CardTitle>
                 </CardHeader>
                 <CardContent>
+
+                    {/* Handle del formulario */}
                     <form
                         onSubmit={(e) => {
                             e.preventDefault()
@@ -33,6 +51,8 @@ const RegisterPage = () => {
                         }}
                         className='flex flex-col gap-4'
                     >
+
+                        {/* Campo para el nombre */}
                         <form.Field name='name'>
                             {(field) => (
                                 <div className='flex flex-col gap-1.5'>
@@ -54,6 +74,7 @@ const RegisterPage = () => {
                             )}
                         </form.Field>
 
+                        {/* Campo para el email */}
                         <form.Field name='email'>
                             {(field) => (
                                 <div className='flex flex-col gap-1.5'>
@@ -75,6 +96,7 @@ const RegisterPage = () => {
                             )}
                         </form.Field>
 
+                        {/* Campo para la password */}
                         <form.Field name='password'>
                             {(field) => (
                                 <div className='flex flex-col gap-1.5'>
@@ -107,6 +129,7 @@ const RegisterPage = () => {
                             )}
                         </form.Subscribe>
 
+                        {/* Aviso de si tiene cuenta */}
                         <p className='text-sm text-center text-muted-foreground'>
                             ¿Ya tenes cuenta?{' '}
                             <Link

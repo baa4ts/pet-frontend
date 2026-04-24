@@ -1,20 +1,39 @@
 import { useForm } from '@tanstack/react-form'
 import { CircleNotch } from '@phosphor-icons/react'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { signIn } from '@/configuracion/Cliente'
+import { Checkbox } from '@/components/ui/checkbox'
 
 const LoginPage = () => {
+    const navigate = useNavigate()
+
     const form = useForm({
         defaultValues: {
             email: '',
             password: '',
+            rememberMe: false,
         },
         onSubmit: async ({ value }) => {
-            // await authClient.signIn.email({ email: value.email, password: value.password })
-            console.log(value)
+            await signIn.email({
+                email: value.email,
+                password: value.password,
+                rememberMe: value.rememberMe,
+            },
+                // Docs
+                // https://better-auth.com/docs/basic-usage#sign-in
+                {
+                    onSuccess: () => {
+                        navigate('/perfil')
+                    },
+                    onError: (ctx) => {
+                        alert(ctx.error.message)
+                    },
+                }
+            )
         },
     })
 
@@ -32,6 +51,8 @@ const LoginPage = () => {
                         }}
                         className='flex flex-col gap-4'
                     >
+
+                        {/* Campo para el email */}
                         <form.Field name='email'>
                             {(field) => (
                                 <div className='flex flex-col gap-1.5'>
@@ -53,6 +74,7 @@ const LoginPage = () => {
                             )}
                         </form.Field>
 
+                        {/* Campo para la password */}
                         <form.Field name='password'>
                             {(field) => (
                                 <div className='flex flex-col gap-1.5'>
@@ -74,6 +96,22 @@ const LoginPage = () => {
                             )}
                         </form.Field>
 
+                        {/* Checkbox para extender la session*/}
+                        <form.Field name='rememberMe'>
+                            {(field) => (
+                                <div className='flex items-center gap-2'>
+                                    <Checkbox
+                                        id={field.name}
+                                        checked={field.state.value}
+                                        onCheckedChange={(checked) => field.handleChange(!!checked)}
+                                    />
+                                    <Label htmlFor={field.name} className='font-normal cursor-pointer'>
+                                        Recordarme
+                                    </Label>
+                                </div>
+                            )}
+                        </form.Field>
+
                         <form.Subscribe selector={(state) => state.isSubmitting}>
                             {(isSubmitting) => (
                                 <Button type='submit' disabled={isSubmitting} className='w-full'>
@@ -85,6 +123,7 @@ const LoginPage = () => {
                             )}
                         </form.Subscribe>
 
+                        {/* Aviso de si tiene cuenta */}
                         <p className='text-sm text-center text-muted-foreground'>
                             ¿No tenes cuenta?{' '}
                             <Link
