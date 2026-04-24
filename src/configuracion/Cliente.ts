@@ -2,7 +2,7 @@ import { createAuthClient } from "better-auth/react"
 import { adminClient, inferAdditionalFields } from "better-auth/client/plugins"
 
 const Cliente = createAuthClient({
-    
+
     /**
      * Backend
      */
@@ -17,6 +17,7 @@ const Cliente = createAuthClient({
             user: {
                 permisos: {
                     type: "string",
+                    required: false
                 },
             },
         }),
