@@ -6,6 +6,13 @@ import LoginPage from "@/paginas/Autenticacion/LoginPage";
 import RegisterPage from "@/paginas/Autenticacion/RegisterPage";
 import Perfil from "@/paginas/Perfil/Perfil";
 import LayoutDashboard from "@/paginas/Administracion/LayoutDashboard";
+import DashInicial from "@/paginas/Administracion/paginas/DashInicio";
+import DashInicio from "@/paginas/Administracion/paginas/DashInicio";
+import DashNoticias from "@/paginas/Administracion/paginas/DashNoticias";
+import DashAusencias from "@/paginas/Administracion/paginas/DashAusencias";
+import DashEventos from "@/paginas/Administracion/paginas/DashEventos";
+import DashUsuarios from "@/paginas/Administracion/paginas/DashUsuarios";
+import Televisor from "@/paginas/Televisor/Televisor";
 
 export const AppRouter = createBrowserRouter([
 
@@ -51,6 +58,13 @@ export const AppRouter = createBrowserRouter([
         ]
     },
 
+    /**
+     * Seccion para televisores
+     */
+    {
+        path: "/tv",
+        element: <Televisor />
+    },
 
     /**
      * Seccion para el perfil del usuario
@@ -70,9 +84,33 @@ export const AppRouter = createBrowserRouter([
         loader: requiereSession,
         element: <LayoutDashboard />,
         children: [
+
+            /**
+             * Seccion inicial dentro del dashboard
+             */
             {
-                index: true,
-                element: <h1>Hola</h1>
+                path: "inicio",
+                element: <DashInicio />
+            },
+
+            /**
+             * Seccion de datos
+             */
+            {
+                path: "noticias",
+                element: <DashNoticias />
+            },
+            {
+                path: "ausencias",
+                element: <DashAusencias />
+            },
+            {
+                path: "eventos",
+                element: <DashEventos />
+            },
+            {
+                path: "usuarios",
+                element: <DashUsuarios />
             }
         ]
     }
