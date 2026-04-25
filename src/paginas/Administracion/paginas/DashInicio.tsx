@@ -2,7 +2,9 @@ import React from 'react'
 
 const DashInicio = () => {
   return (
-    <div>DashInicio</div>
+    <section className='m-2 flex flex-col flex-1'>
+      <div>Inicio</div>
+    </section>
   )
 }
 

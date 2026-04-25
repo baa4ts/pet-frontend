@@ -2,7 +2,9 @@ import React from 'react'
 
 const DashAusencias = () => {
   return (
-    <div>DashAusencias</div>
+    <section className='m-2 flex flex-col flex-1'>
+      <div>Ausencias</div>
+    </section>
   )
 }
 

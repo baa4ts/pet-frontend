@@ -13,10 +13,12 @@ import {
 } from "@/components/ui/sidebar"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Cliente } from "@/configuracion/Cliente"
-import { Newspaper, CalendarBlank, UserMinus, Users, House, Television, UserCircle } from "@phosphor-icons/react"
+import { Newspaper, CalendarBlank, UserMinus, Users, House, Television } from "@phosphor-icons/react"
 import { tienePermiso } from "@/lib/permisos"
 import { useNavigate } from "react-router"
 import { useCallback } from "react"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { SignOut, UserCircle } from '@phosphor-icons/react'
 
 export function AppSidebar() {
     const { data: session } = Cliente.useSession()
@@ -59,7 +61,7 @@ export function AppSidebar() {
                         <SidebarMenu>
 
                             <SidebarMenuItem>
-                                <SidebarMenuButton onClick={() => navigate("/")}>
+                                <SidebarMenuButton onClick={() => navigate("/dashboard")}>
                                     <House size={16} />
                                     Inicio
                                 </SidebarMenuButton>
@@ -152,36 +154,60 @@ export function AppSidebar() {
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
 
-                            <SidebarMenuItem>
+                            {/* <SidebarMenuItem>
                                 <SidebarMenuButton onClick={() => navigate("/perfil")}>
                                     <UserCircle size={16} />
                                     Perfil
                                 </SidebarMenuButton>
-                            </SidebarMenuItem>
+                            </SidebarMenuItem> */}
 
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
-
+                
             </SidebarContent>
 
             {/* Footer — card de usuario */}
             <SidebarFooter className="p-3">
-                <div className="flex items-center gap-3 border border-border p-3">
-                    <Avatar className="w-8 h-8">
-                        <AvatarFallback className="text-xs">{iniciales ?? "?"}</AvatarFallback>
-                    </Avatar>
-                    <div className="flex flex-col min-w-0">
-                        <span className="text-sm font-medium truncate leading-none mb-0.5">
-                            {session?.user.name ?? "—"}
-                        </span>
-                        <span className="text-xs text-muted-foreground truncate">
-                            {session?.user.email ?? "—"}
-                        </span>
-                    </div>
-                </div>
-            </SidebarFooter>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <div className="flex items-center gap-3 border border-border p-3 cursor-pointer hover:bg-accent transition-colors">
+                            <Avatar className="w-8 h-8">
+                                <AvatarFallback className="text-xs">{iniciales ?? "?"}</AvatarFallback>
+                            </Avatar>
+                            <div className="flex flex-col min-w-0">
+                                <span className="text-sm font-medium truncate leading-none mb-0.5">
+                                    {session?.user.name ?? "—"}
+                                </span>
+                                <span className="text-xs text-muted-foreground truncate">
+                                    {session?.user.email ?? "—"}
+                                </span>
+                            </div>
+                        </div>
+                    </DropdownMenuTrigger>
 
+                    <DropdownMenuContent side="top" align="start" className="w-48">
+                        <DropdownMenuItem onClick={() => navigate("/perfil")}>
+                            <UserCircle size={16} className="mr-2" />
+                            Perfil
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                            onClick={() => {
+                                Cliente.signOut({
+                                    fetchOptions: {
+                                        onSuccess: () => navigate("/tv", { replace: true })
+                                    }
+                                })
+                            }}
+                            className="text-destructive focus:text-destructive"
+                        >
+                            <SignOut size={16} className="mr-2" />
+                            Cerrar sesion
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </SidebarFooter>
         </Sidebar>
     )
 }

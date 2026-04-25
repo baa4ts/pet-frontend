@@ -1,4 +1,5 @@
 import { Cliente } from "@/configuracion/Cliente"
+import { tienePermiso } from "@/lib/permisos"
 import { redirect } from "react-router"
 
 export async function requiereSession() {
@@ -17,6 +18,17 @@ export async function requiereSinSession() {
         }
     } catch (e) {
         if (e instanceof Response) throw e
-        // TODO: Ingorar el fallo
+    }
+}
+
+export async function requierePermiso(permiso: string, url: string) {
+    const session = await Cliente.getSession()
+
+    if (!session.data) {
+        throw redirect('/autenticacion/login')
+    }
+
+    if (!tienePermiso(session.data.user.permisos || "", permiso)) {
+        throw redirect(url)
     }
 }
