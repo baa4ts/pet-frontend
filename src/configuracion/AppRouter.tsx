@@ -98,22 +98,22 @@ export const AppRouter = createBrowserRouter([
              */
             {
                 path: "noticias",
-                loader: () => requierePermiso("noticias", "/dashboard/sin-permisos"),
+                loader: () => requierePermiso("noticias", "/dashboard/sin-permisos?seccion=noticias"),
                 element: <DashNoticias />
             },
             {
                 path: "ausencias",
-                loader: () => requierePermiso("ausencias", "/dashboard/sin-permisos"),
+                loader: () => requierePermiso("ausencias", "/dashboard/sin-permisos?seccion=ausencias"),
                 element: <DashAusencias />
             },
             {
                 path: "eventos",
-                loader: () => requierePermiso("eventos", "/dashboard/sin-permisos"),
+                loader: () => requierePermiso("eventos", "/dashboard/sin-permisos?seccion=eventos"),
                 element: <DashEventos />
             },
             {
                 path: "usuarios",
-                loader: () => requierePermiso("usuarios", "/dashboard/sin-permisos"),
+                loader: () => requierePermiso("usuarios", "/dashboard/sin-permisos?seccion=usuarios"),
                 element: <DashUsuarios />
             },
 
