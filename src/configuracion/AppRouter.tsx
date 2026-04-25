@@ -6,7 +6,6 @@ import LoginPage from "@/paginas/Autenticacion/LoginPage";
 import RegisterPage from "@/paginas/Autenticacion/RegisterPage";
 import Perfil from "@/paginas/Perfil/Perfil";
 import LayoutDashboard from "@/paginas/Administracion/LayoutDashboard";
-import DashInicial from "@/paginas/Administracion/paginas/DashInicio";
 import DashInicio from "@/paginas/Administracion/paginas/DashInicio";
 import DashNoticias from "@/paginas/Administracion/paginas/DashNoticias";
 import DashAusencias from "@/paginas/Administracion/paginas/DashAusencias";
