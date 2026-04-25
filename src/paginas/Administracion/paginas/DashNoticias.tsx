@@ -1,11 +1,5 @@
-import React from 'react'
-
 const DashNoticias = () => {
-  return (
-    <section className='m-2 flex flex-col flex-1'>
-      <div>Noticias</div>
-    </section>
-    )
-}
+  return <>1</>;
+};
 
-export default DashNoticias
+export default DashNoticias;

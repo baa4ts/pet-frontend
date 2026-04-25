@@ -1,9 +1,5 @@
 const DashUsuarios = () => {
-  return (
-    <section className='m-2 flex flex-col flex-1'>
-      <div>Usuarios</div>
-    </section>
-  )
-}
+  return <div>Usuarios</div>;
+};
 
-export default DashUsuarios
+export default DashUsuarios;

@@ -1,129 +1,142 @@
 import { createBrowserRouter, redirect } from "react-router";
-import { requierePermiso, requiereSession, requiereSinSession } from "@/loaders/ClienteLoader";
 
-import HomePage from "../paginas/HomePage";
+import {
+  requierePermiso,
+  requiereSession,
+  requiereSinSession,
+} from "@/loaders/ClienteLoader";
+import LayoutDashboard from "@/paginas/Administracion/LayoutDashboard";
+import LayoutFilters from "@/paginas/Administracion/LayoutFilters";
+import DashAusencias from "@/paginas/Administracion/paginas/DashAusencias";
+import DashEventos from "@/paginas/Administracion/paginas/DashEventos";
+import DashInicio from "@/paginas/Administracion/paginas/DashInicio";
+import DashNoPermisos from "@/paginas/Administracion/paginas/DashNoPermisos";
+import DashNoticias from "@/paginas/Administracion/paginas/DashNoticias";
+import DashUsuarios from "@/paginas/Administracion/paginas/DashUsuarios";
 import LoginPage from "@/paginas/Autenticacion/LoginPage";
 import RegisterPage from "@/paginas/Autenticacion/RegisterPage";
 import Perfil from "@/paginas/Perfil/Perfil";
-import LayoutDashboard from "@/paginas/Administracion/LayoutDashboard";
-import DashInicio from "@/paginas/Administracion/paginas/DashInicio";
-import DashNoticias from "@/paginas/Administracion/paginas/DashNoticias";
-import DashAusencias from "@/paginas/Administracion/paginas/DashAusencias";
-import DashEventos from "@/paginas/Administracion/paginas/DashEventos";
-import DashUsuarios from "@/paginas/Administracion/paginas/DashUsuarios";
 import Televisor from "@/paginas/Televisor/Televisor";
-import DashNoPermisos from "@/paginas/Administracion/paginas/DashNoPermisos";
+
+import HomePage from "../paginas/HomePage";
 
 export const AppRouter = createBrowserRouter([
+  /**
+   * Punto de entrada de la web
+   */
+  {
+    index: true,
+    element: <HomePage />,
+  },
 
-    /**
-     * Punto de entrada de la web
-     */
-    {
+  /**
+   * Seccion para registro y login
+   */
+  {
+    path: "/autenticacion",
+    loader: requiereSinSession,
+    children: [
+      /**
+       * Redireccion por seguridad
+       */
+      {
         index: true,
-        element: <HomePage />
-    },
+        loader: () => redirect("/autenticacion/login"),
+      },
 
-    /**
-     * Seccion para registro y login
-     */
-    {
-        path: "/autenticacion",
-        loader: requiereSinSession,
+      /**
+       * Login
+       */
+      {
+        path: "login",
+        element: <LoginPage />,
+      },
+
+      /**
+       * Register
+       */
+      {
+        path: "register",
+        element: <RegisterPage />,
+      },
+    ],
+  },
+
+  /**
+   * Seccion para televisores
+   */
+  {
+    path: "/tv",
+    element: <Televisor />,
+  },
+
+  /**
+   * Seccion para el perfil del usuario
+   */
+  {
+    path: "/perfil",
+    loader: requiereSession,
+    element: <Perfil />,
+  },
+
+  /**
+   * Seccion administrativa. dashboard y estadisticas
+   */
+  {
+    path: "/dashboard",
+    loader: requiereSession,
+    element: <LayoutDashboard />,
+    children: [
+      /**
+       * Seccion inicial dentro del dashboard
+       */
+      {
+        index: true,
+        element: <DashInicio />,
+      },
+
+      /**
+       * Seccion de datos
+       *
+       * Nota: Todos los elementos de aqui cuentan con la barra de limit, offset, full.
+       * Solo filtros no paginacion
+       */
+      {
+        element: <LayoutFilters />,
         children: [
-
-            /**
-             * Redireccion por seguridad
-             */
-            {
-                index: true,
-                loader: () => redirect("/autenticacion/login")
-            },
-
-            /**
-             * Login
-             */
-            {
-                path: "login",
-                element: <LoginPage />
-            },
-
-            /**
-             * Register
-             */
-            {
-                path: "register",
-                element: <RegisterPage />
-            }
-        ]
-    },
-
-    /**
-     * Seccion para televisores
-     */
-    {
-        path: "/tv",
-        element: <Televisor />
-    },
-
-    /**
-     * Seccion para el perfil del usuario
-     */
-    {
-        path: "/perfil",
-        loader: requiereSession,
-        element: <Perfil />
-    },
-
-
-    /**
-     * Seccion administrativa. dashboard y estadisticas
-     */
-    {
-        path: "/dashboard",
-        loader: requiereSession,
-        element: <LayoutDashboard />,
-        children: [
-
-            /**
-             * Seccion inicial dentro del dashboard
-             */
-            {
-                index: true,
-                element: <DashInicio />
-            },
-
-            /**
-             * Seccion de datos
-             */
-            {
-                path: "noticias",
-                loader: () => requierePermiso("noticias", "/dashboard/sin-permisos?seccion=noticias"),
-                element: <DashNoticias />
-            },
-            {
-                path: "ausencias",
-                loader: () => requierePermiso("ausencias", "/dashboard/sin-permisos?seccion=ausencias"),
-                element: <DashAusencias />
-            },
-            {
-                path: "eventos",
-                loader: () => requierePermiso("eventos", "/dashboard/sin-permisos?seccion=eventos"),
-                element: <DashEventos />
-            },
-            {
-                path: "usuarios",
-                loader: () => requierePermiso("usuarios", "/dashboard/sin-permisos?seccion=usuarios"),
-                element: <DashUsuarios />
-            },
-
-            /**
-             * Seccion sin permisos
-             */
-            {
-                path: "sin-permisos",
-                element: <DashNoPermisos />
-            }
-        ]
-    }
-])
+          {
+            path: "noticias",
+            loader: () =>
+              requierePermiso("noticias", "/dashboard/sin-permisos?seccion=noticias"),
+            element: <DashNoticias />,
+          },
+          {
+            path: "ausencias",
+            loader: () =>
+              requierePermiso("ausencias", "/dashboard/sin-permisos?seccion=ausencias"),
+            element: <DashAusencias />,
+          },
+          {
+            path: "eventos",
+            loader: () =>
+              requierePermiso("eventos", "/dashboard/sin-permisos?seccion=eventos"),
+            element: <DashEventos />,
+          },
+          {
+            path: "usuarios",
+            loader: () =>
+              requierePermiso("usuarios", "/dashboard/sin-permisos?seccion=usuarios"),
+            element: <DashUsuarios />,
+          },
+        ],
+      },
+      /**
+       * Seccion sin permisos
+       */
+      {
+        path: "sin-permisos",
+        element: <DashNoPermisos />,
+      },
+    ],
+  },
+]);

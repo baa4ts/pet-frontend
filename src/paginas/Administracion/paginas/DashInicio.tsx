@@ -1,11 +1,5 @@
-import React from 'react'
-
 const DashInicio = () => {
-  return (
-    <section className='m-2 flex flex-col flex-1'>
-      <div>Inicio</div>
-    </section>
-  )
-}
+  return <div>Inicio</div>;
+};
 
-export default DashInicio
+export default DashInicio;

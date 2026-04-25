@@ -1,24 +1,31 @@
-import { AppSidebar } from '@/components/shared/DashboradSideBar'
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
-import { Separator } from '@/components/ui/separator'
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { memo } from 'react'
-import { Link, Outlet, useLocation } from 'react-router'
+import { memo } from "react";
+import { Link, Outlet, useLocation } from "react-router";
+
+import { AppSidebar } from "@/components/shared/DashboradSideBar";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Separator } from "@/components/ui/separator";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 const LayoutDashboard = memo(() => {
-
-  const seccion = useLocation().pathname.split("/").filter(Boolean)[1] || ""
+  const seccion = useLocation().pathname.split("/").filter(Boolean)[1] || "";
 
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className='flex flex-col flex-1'>
-        <header className='h-auto w-full'>
+      <main className="flex flex-col flex-1">
+        <header className="h-auto w-full">
           <section className="flex flex-row">
-            <div className='h-10 w-10 m-2 flex items-center uppercase'>
-              <SidebarTrigger size="lg" variant="default" className='cursor-pointer' />
+            <div className="h-10 w-10 m-2 flex items-center uppercase">
+              <SidebarTrigger size="lg" variant="default" className="cursor-pointer" />
             </div>
-            <div className='h-10 m-2 flex items-center uppercase'>
+            <div className="h-10 m-2 flex items-center uppercase">
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem>
@@ -38,12 +45,14 @@ const LayoutDashboard = memo(() => {
               </Breadcrumb>
             </div>
           </section>
-          <Separator orientation='horizontal' />
+          <Separator orientation="horizontal" />
         </header>
-        <Outlet />
+        <section className="m-2 flex flex-col flex-1">
+          <Outlet />
+        </section>
       </main>
     </SidebarProvider>
-  )
-})
+  );
+});
 
-export default LayoutDashboard
+export default LayoutDashboard;

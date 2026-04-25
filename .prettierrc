@@ -1,5 +1,7 @@
 {
-    "plugins": ["@trivago/prettier-plugin-sort-imports"],
+    "plugins": [
+        "@trivago/prettier-plugin-sort-imports"
+    ],
     "importOrder": [
         "^react",
         "^react-router",
@@ -8,5 +10,6 @@
         "^[./]"
     ],
     "importOrderSeparation": true,
-    "importOrderSortSpecifiers": true
+    "importOrderSortSpecifiers": true,
+    "printWidth": 90
 }
