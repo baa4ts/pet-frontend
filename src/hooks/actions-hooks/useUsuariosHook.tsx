@@ -1,0 +1,27 @@
+import { getUsuariosDash } from "@/actions/dashboard/getUsuariosDash"
+import { useQuery } from "@tanstack/react-query"
+import { useSearchParams } from "react-router"
+
+interface Props {
+    full?: boolean
+}
+
+export const useUsuariosHook = ({ full: fullProp = false }: Props) => {
+    const [searchParams] = useSearchParams()
+
+    const page = Number(searchParams.get("page") ?? "1")
+    const limit = Number(searchParams.get("limit") ?? "5")
+    const order = searchParams.get("order") ?? "desc"
+    const full = searchParams.has("full")
+        ? searchParams.get("full") === "true"
+        : fullProp
+
+    const offset = (page - 1) * limit
+
+    return useQuery({
+        queryKey: ["usuarios", { page, limit, full, order }],
+        queryFn: () => getUsuariosDash({ limit, offset, full, order }),
+        staleTime: 10_000,
+        refetchInterval: 10_000
+    })
+}
