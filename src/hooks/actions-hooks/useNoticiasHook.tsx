@@ -2,25 +2,19 @@ import { getNoticiasDash } from "@/actions/dashboard/getNoticiasDash"
 import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "react-router"
 
-interface Props {
-    full?: boolean
-}
-
-export const useNoticiasHook = ({ full: fullProp = false }: Props) => {
+export const useNoticiasHook = () => {
     const [searchParams] = useSearchParams()
 
-    const page  = Number(searchParams.get("page")  ?? "1")
-    const limit = Number(searchParams.get("limit") ?? "5")
-    const order = searchParams.get("order") ?? "desc"
-    const full  = searchParams.has("full")
-        ? searchParams.get("full") === "true"
-        : fullProp
+    const limit = Number(searchParams.get("limit") ?? 5)
+    const order = searchParams.get("order") ?? undefined
+    const page  = Number(searchParams.get("page")  ?? 1)
+    const full  = searchParams.get("full") ?? "true"
 
     const offset = (page - 1) * limit
 
     return useQuery({
-        queryKey: ["noticias", { page, limit, full, order }],
-        queryFn:  () => getNoticiasDash({ limit, offset, full, order }),
+        queryKey: ["noticias", { page, limit, order, full }],
+        queryFn: () => getNoticiasDash({ limit, offset, order, full }),
         staleTime: 10_000,
         refetchInterval: 10_000,
     })

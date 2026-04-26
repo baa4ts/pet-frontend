@@ -4,7 +4,7 @@ interface Params {
     limit?: number
     offset?: number
     order?: string
-    full?: boolean
+    full?: string
 }
 
 export const getNoticiasDash = async (params?: Params): Promise<ServerResponse<Noticia>> => {
