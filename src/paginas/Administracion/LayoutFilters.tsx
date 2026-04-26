@@ -1,6 +1,9 @@
 import { useCallback } from "react";
 import { Outlet, useSearchParams } from "react-router";
 
+import { TrashIcon } from "@phosphor-icons/react";
+
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -15,7 +18,7 @@ import { Separator } from "@/components/ui/separator";
 const LayoutFilters = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const limit = searchParams.get("limit") || "15";
+  const limit = searchParams.get("limit") || "5";
   const full = searchParams.get("full") || "true";
   const order = searchParams.get("order") || "none";
 
@@ -56,10 +59,19 @@ const LayoutFilters = () => {
     [setSearchParams],
   );
 
+  const onClear = useCallback(() => {
+    setSearchParams((prev) => {
+      prev.delete("page");
+      prev.delete("limit");
+      prev.delete("order");
+      prev.delete("full");
+      return prev;
+    });
+  }, [setSearchParams]);
+
   return (
     <>
       <section className="w-full h-16 rounded-md py-2 px-5 flex items-center gap-3">
-        
         <Label htmlFor="elementos-por-pagina">Elementos por pagina</Label>
         <Select onValueChange={onLimitChange} value={limit}>
           <SelectTrigger id="elementos-por-pagina" className="w-16">
@@ -106,7 +118,10 @@ const LayoutFilters = () => {
             </SelectGroup>
           </SelectContent>
         </Select>
- 
+        <Separator orientation="vertical" />
+        <Button onClick={onClear} variant="destructive">
+          <TrashIcon size={32} />
+        </Button>
       </section>
       <Separator />
       <Outlet />

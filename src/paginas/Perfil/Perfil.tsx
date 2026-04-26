@@ -31,7 +31,6 @@ const Perfil = () => {
     <section className="w-full h-full flex items-center justify-center p-6">
       <Card className="w-full max-w-2xl">
         <CardHeader className="pb-0">
-
           {/* Avatar e identificacion */}
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 bg-muted flex items-center justify-center border border-border">
@@ -46,7 +45,6 @@ const Perfil = () => {
               </Badge>
             </div>
           </div>
-        
         </CardHeader>
 
         <CardContent className="flex flex-col gap-4 pt-6">

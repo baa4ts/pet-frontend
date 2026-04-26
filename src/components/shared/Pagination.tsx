@@ -12,7 +12,7 @@ export const Pagination = ({ total }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = Number(searchParams.get("page") || "1");
-  const limit = searchParams.get("limit") || "15";
+  const limit = searchParams.get("limit") || "5";
   const totalPages = Math.ceil(total / Number(limit));
 
   const onPrev = useCallback(() => {
@@ -38,11 +38,15 @@ export const Pagination = ({ total }: Props) => {
       </div>
       <Separator orientation="vertical" />
       <div className="flex h-full items-center gap-2 mx-4">
-        <Button onClick={onPrev} disabled={page <= 1}>Anterior</Button>
+        <Button onClick={onPrev} disabled={page <= 1}>
+          Anterior
+        </Button>
         <div className="w-16 flex items-center justify-center">
           {total > 0 ? `${page} / ${totalPages}` : "0 / 0"}
         </div>
-        <Button onClick={onNext} disabled={page >= totalPages}>Siguiente</Button>
+        <Button onClick={onNext} disabled={page >= totalPages}>
+          Siguiente
+        </Button>
       </div>
       <Separator orientation="vertical" />
     </article>
