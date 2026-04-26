@@ -5,6 +5,7 @@ interface Params {
   offset?: number;
   order?: string;
   full?: string;
+  query?: string;
 }
 
 export const getUsuariosDash = async (

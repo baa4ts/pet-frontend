@@ -3,15 +3,19 @@ import { Eye, PencilSimple, Trash, WarningCircle } from "@phosphor-icons/react";
 import { Pagination } from "@/components/shared/Pagination";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { useAusenciasHook } from "@/hooks/actions-hooks/useAusenciasHook";
+import { useUsuariosHook } from "@/hooks/actions-hooks/useUsuariosHook";
 
-const DashAusencias = () => {
-  const { data, isError, isLoading, refetch } = useAusenciasHook();
+const DashUsuarios = () => {
+  const { data, isError, isLoading, refetch } = useUsuariosHook();
 
   return (
     <section className="flex flex-1 flex-col overflow-hidden">
       {/* Paginador */}
-      <Pagination total={data?.meta?.total || 0} />
+      <Pagination
+        total={data?.meta?.total || 0}
+        busqueda={true}
+        placeholder="Nombre de usuario . . . "
+      />
       <Separator />
 
       <article className={`min-h-0 ${isError ? "flex-1" : "flex-7"}`}>
@@ -39,11 +43,11 @@ const DashAusencias = () => {
             </div>
           )}
 
-          {/* Si el fetch fue correcto, pero no hay ausencias */}
+          {/* Si el fetch fue correcto, pero no hay noticias */}
           {!isLoading && !isError && data?.data.length === 0 && (
             <div className="flex flex-1 items-center justify-center p-8">
               <p className="text-sm text-muted-foreground">
-                No hay ausencias registradas.
+                No hay usuarios registrados.
               </p>
             </div>
           )}
@@ -51,15 +55,16 @@ const DashAusencias = () => {
           {/* Si todo fue correcto */}
           {!isLoading && !isError && data?.data && data.data.length > 0 && (
             <section className="flex flex-col divide-y divide-border p-5">
-              {data.data.map((ausencia) => (
-                <article key={ausencia.id} className="flex items-center gap-3 py-3">
-                  <span className="w-8 text-sm text-muted-foreground">{ausencia.id}</span>
-                  <span className="flex-1 truncate font-medium">{ausencia.materia}</span>
-                  <span className="text-sm text-muted-foreground">
-                    {new Date(ausencia.fecha).toLocaleDateString()}
+              {data.data.map((usuario) => (
+                <article key={usuario.id} className="flex items-center gap-3 py-3">
+                  <span className="flex-1 truncate font-semibold text-base">
+                    {usuario.name}
                   </span>
-                  <span className="truncate hidden md:block text-sm font-medium">
-                    {ausencia.docente.name}
+                  <span className="text-sm text-muted-foreground truncate hidden md:block">
+                    {usuario.email}
+                  </span>
+                  <span className="text-sm font-medium truncate hidden lg:block">
+                    {usuario.role}
                   </span>
                   <div className="flex items-center gap-1">
                     <Button variant="ghost" size="icon" disabled>
@@ -81,9 +86,9 @@ const DashAusencias = () => {
 
       {/* Paginador */}
       <Separator />
-      <Pagination total={data?.meta?.total || 0} />
+      <Pagination total={data?.meta?.total || 0} busqueda={false} />
     </section>
   );
 };
 
-export default DashAusencias;
+export default DashUsuarios;

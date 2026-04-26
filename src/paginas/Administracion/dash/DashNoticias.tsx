@@ -11,7 +11,7 @@ const DashNoticias = () => {
   return (
     <section className="flex flex-1 flex-col overflow-hidden">
       {/* Paginador */}
-      <Pagination total={data?.meta?.total || 0} />
+      <Pagination total={data?.meta?.total || 0} busqueda={false} />
       <Separator />
 
       <article className={`min-h-0 ${isError ? "flex-1" : "flex-7"}`}>
@@ -83,7 +83,7 @@ const DashNoticias = () => {
 
       {/* Paginador */}
       <Separator />
-      <Pagination total={data?.meta?.total || 0} />
+      <Pagination total={data?.meta?.total || 0} busqueda={false} />
     </section>
   );
 };

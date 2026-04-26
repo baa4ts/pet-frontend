@@ -7,12 +7,12 @@ import {
 } from "@/loaders/ClienteLoader";
 import LayoutDashboard from "@/paginas/Administracion/LayoutDashboard";
 import LayoutFilters from "@/paginas/Administracion/LayoutFilters";
-import DashAusencias from "@/paginas/Administracion/paginas/DashAusencias";
-import DashEventos from "@/paginas/Administracion/paginas/DashEventos";
-import DashInicio from "@/paginas/Administracion/paginas/DashInicio";
-import DashNoPermisos from "@/paginas/Administracion/paginas/DashNoPermisos";
-import DashNoticias from "@/paginas/Administracion/paginas/DashNoticias";
-import DashUsuarios from "@/paginas/Administracion/paginas/DashUsuarios";
+import DashAusencias from "@/paginas/Administracion/dash/DashAusencias";
+import DashEventos from "@/paginas/Administracion/dash/DashEventos";
+import DashNoticias from "@/paginas/Administracion/dash/DashNoticias";
+import DashUsuarios from "@/paginas/Administracion/dash/DashUsuarios";
+import DashInicio from "@/paginas/Administracion/no-it/DashInicio";
+import DashNoPermisos from "@/paginas/Administracion/no-it/DashNoPermisos";
 import LoginPage from "@/paginas/Autenticacion/LoginPage";
 import RegisterPage from "@/paginas/Autenticacion/RegisterPage";
 import Perfil from "@/paginas/Perfil/Perfil";

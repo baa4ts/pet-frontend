@@ -22,6 +22,9 @@ const LayoutFilters = () => {
   const full = searchParams.get("full") || "true";
   const order = searchParams.get("order") || "none";
 
+  /**
+   * Cambios en el full
+   */
   const onFullChange = useCallback(
     (value: string) => {
       setSearchParams((prev) => {
@@ -33,6 +36,9 @@ const LayoutFilters = () => {
     [setSearchParams],
   );
 
+  /**
+   * Cambios en el limite
+   */
   const onLimitChange = useCallback(
     (value: string) => {
       setSearchParams((prev) => {
@@ -44,6 +50,9 @@ const LayoutFilters = () => {
     [setSearchParams],
   );
 
+  /**
+   * Cambios en el orden
+   */
   const onOrderChange = useCallback(
     (value: string) => {
       setSearchParams((prev) => {
@@ -59,12 +68,16 @@ const LayoutFilters = () => {
     [setSearchParams],
   );
 
+  /**
+   * Cambio para limpiar todas las query
+   */
   const onClear = useCallback(() => {
     setSearchParams((prev) => {
       prev.delete("page");
       prev.delete("limit");
       prev.delete("order");
       prev.delete("full");
+      prev.delete("query");
       return prev;
     });
   }, [setSearchParams]);
