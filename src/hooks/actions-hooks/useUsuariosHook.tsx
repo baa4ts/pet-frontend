@@ -16,7 +16,7 @@ export const useUsuariosHook = () => {
   const offset = (page - 1) * limit;
 
   return useQuery({
-    queryKey: ["usuarios", { page, limit, order, full }],
+    queryKey: ["usuarios", { page, limit, order, full, query }],
     queryFn: () => getUsuariosDash({ limit, offset, order, full, query }),
     staleTime: 10_000,
     refetchInterval: 10_000,

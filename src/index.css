@@ -128,3 +128,13 @@
     @apply font-mono;
   }
 }
+
+
+@keyframes scroll {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+.animate-scroll-slow   { animation: scroll 40s linear infinite; }
+.animate-scroll-medium { animation: scroll 25s linear infinite; }
+.animate-scroll-fast   { animation: scroll 12s linear infinite; }
