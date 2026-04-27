@@ -15,7 +15,7 @@ export const AusenciasTelevision = () => {
     const activo = ausencias.length > 2;
 
     return (
-        <div className="flex-1 bg-white rounded-lg flex flex-col overflow-hidden">
+        <div className="flex-1 bg-white rounded-lg flex flex-col outline-1  outline-amber-300/80 to-border overflow-hidden relative">
             <div className="text-lg font-semibold py-2 px-3 border-b border-gray-200 shrink-0">
                 Ausencias
             </div>

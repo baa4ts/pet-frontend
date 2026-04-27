@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { WifiSlash, XIcon } from "@phosphor-icons/react";
 import { EventosTelevision } from "@/components/television/EventosTelevision";
 import { AusenciasTelevision } from "@/components/television/AusenciasTelevision";
-
+import { Menusito } from "@/components/television/menusito";
 const Televisor = () => {
   const [actual, setActual] = useState(0);
   const [restante, setRestante] = useState(8);
@@ -42,11 +42,12 @@ const Televisor = () => {
   const noticia = noticias[actual];
 
   return (
-    <section className="flex-1 h-screen flex flex-row bg-slate-950 p-2 gap-2">
+    <section className="relative flex-1 h-screen flex flex-row overflow-hidden bg-linear-to-tl from-indigo-900 via-blue-400 to-slate-200">
+     <Menusito/>
 
       {/* Noticia principal */}
-      <article className="flex-7/10 flex flex-col">
-        <div className="flex flex-1 rounded-lg overflow-hidden relative">
+      <article className="flex-7/10 flex flex-col z-0">
+        <div className=" flex flex-1 overflow-hidden relativeborder-slate-500 border-b-slate-300 border-r-slate-300 rounded-lg m-4">
 
           {/* Error */}
           {isError && (
