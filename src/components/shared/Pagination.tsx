@@ -52,18 +52,18 @@ export const Pagination = ({ total, busqueda = false, placeholder }: Props) => {
 
   return (
     <article className="flex h-12 flex-row items-center">
-      <div className="flex h-full items-center mx-4">
-        Total de elementos {` ${total}`}
+      <div className="flex h-full items-center mx-4 w-40 shrink-0">
+        Total: {` ${total}`}
       </div>
       <Separator orientation="vertical" />
-      <div className="flex h-full items-center gap-2 mx-4">
-        <Button onClick={onPrev} disabled={page <= 1}>
+      <div className="flex h-full items-center gap-2 mx-4 shrink-0">
+        <Button onClick={onPrev} disabled={page <= 1} size="sm">
           Anterior
         </Button>
-        <div className="w-16 flex items-center justify-center">
+        <div className="w-16 flex items-center justify-center text-sm">
           {total > 0 ? `${page} / ${totalPages}` : "-- / --"}
         </div>
-        <Button onClick={onNext} disabled={page >= totalPages}>
+        <Button onClick={onNext} disabled={page >= totalPages} size="sm">
           Siguiente
         </Button>
       </div>
@@ -72,7 +72,7 @@ export const Pagination = ({ total, busqueda = false, placeholder }: Props) => {
       {busqueda && (
         <>
           <Separator orientation="vertical" />
-          <div className="w-80 mx-4">
+          <div className="w-80 mx-4 shrink-0">
             <Input
               onChange={(e) => onQueryChange(e.target.value)}
               placeholder={placeholder || " . . . "}

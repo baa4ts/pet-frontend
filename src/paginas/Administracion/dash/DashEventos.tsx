@@ -1,5 +1,11 @@
-import { Eye, PencilSimple, Trash, WarningCircle } from "@phosphor-icons/react";
+import { useCallback } from "react";
+import { useNavigate } from "react-router";
 
+import { Eye, PencilSimple, WarningCircle } from "@phosphor-icons/react";
+import { toast } from "sonner";
+
+import { EliminarElemento } from "@/actions/dashboard/EliminarElemento";
+import { EliminarAlgo } from "@/components/dashboard/EliminarAlgo";
 import { Pagination } from "@/components/shared/Pagination";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -7,6 +13,39 @@ import { useEventosHook } from "@/hooks/actions-hooks/useEventosHook";
 
 const DashEventos = () => {
   const { data, isError, isLoading, refetch } = useEventosHook();
+  const navigate = useNavigate();
+
+  /*
+   * Elimina el evento y hace un refetch
+   */
+  const eliminar = useCallback(
+    (id: number, nombre: string) => {
+      toast.promise(
+        async () => {
+          // Hacer el delete
+          const check = await EliminarElemento({
+            id,
+            url: "eventos",
+
+            // Control de autenticacion
+            onError: (status) => {
+              if (status === 401) navigate("/login");
+              if (status === 403) navigate("/sin-permisos");
+            },
+          });
+          await refetch();
+          return check;
+        },
+        {
+          loading: `Eliminando "${nombre}"...`,
+          success: `"${nombre}" eliminado correctamente`,
+          error: `Error al eliminar "${nombre}"`,
+          position: "top-center",
+        },
+      );
+    },
+    [refetch, navigate],
+  );
 
   return (
     <section className="flex flex-1 flex-col overflow-hidden">
@@ -14,7 +53,8 @@ const DashEventos = () => {
       <Pagination total={data?.meta?.total || 0} busqueda={false} />
       <Separator />
 
-      <article className={`min-h-0 ${isError ? "flex-1" : "flex-7"}`}>
+      {/* Contenedor de tamaño fijo para evitar saltos */}
+      <article className="flex-1 min-h-0">
         <div className="h-full flex flex-col overflow-y-auto">
           {/* Si se esta haciendo el fetch */}
           {isLoading && (
@@ -39,7 +79,7 @@ const DashEventos = () => {
             </div>
           )}
 
-          {/* Si el fetch fue correcto, pero no hay noticias */}
+          {/* Si el fetch fue correcto, pero no hay eventos */}
           {!isLoading && !isError && data?.data.length === 0 && (
             <div className="flex flex-1 items-center justify-center p-8">
               <p className="text-sm text-muted-foreground">No hay eventos registrados.</p>
@@ -76,9 +116,15 @@ const DashEventos = () => {
                     <Button variant="ghost" size="icon" disabled>
                       <PencilSimple className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon">
-                      <Trash className="h-4 w-4" />
-                    </Button>
+
+                    {/* Eliminar */}
+                    <EliminarAlgo
+                      variant="ghost"
+                      confirmVariant="destructive"
+                      confirmLabel="Eliminar"
+                      descripcion={`¿Estás seguro de que querés eliminar el evento "${evento.nombre}"?`}
+                      onConfirm={() => eliminar(evento.id, evento.nombre)}
+                    />
                   </div>
                 </article>
               ))}

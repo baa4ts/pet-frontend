@@ -1,5 +1,11 @@
-import { Eye, PencilSimple, Trash, WarningCircle } from "@phosphor-icons/react";
+import { useCallback } from "react";
+import { useNavigate } from "react-router";
 
+import { Eye, PencilSimple, WarningCircle } from "@phosphor-icons/react";
+import { toast } from "sonner";
+
+import { EliminarElemento } from "@/actions/dashboard/EliminarElemento";
+import { EliminarAlgo } from "@/components/dashboard/EliminarAlgo";
 import { Pagination } from "@/components/shared/Pagination";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -7,6 +13,39 @@ import { useNoticiasHook } from "@/hooks/actions-hooks/useNoticiasHook";
 
 const DashNoticias = () => {
   const { data, isError, isLoading, refetch } = useNoticiasHook();
+  const navigate = useNavigate();
+
+  /*
+   * Elimina la noticia y hace un refetch
+   */
+  const eliminar = useCallback(
+    (id: number, titulo: string) => {
+      toast.promise(
+        async () => {
+          // Hacer el delete
+          const check = await EliminarElemento({
+            id,
+            url: "noticias",
+
+            // Control de autenticacion
+            onError: (status) => {
+              if (status === 401) navigate("/login");
+              if (status === 403) navigate("/sin-permisos");
+            },
+          });
+          await refetch();
+          return check;
+        },
+        {
+          loading: `Eliminando "${titulo}"...`,
+          success: `"${titulo}" eliminada correctamente`,
+          error: `Error al eliminar "${titulo}"`,
+          position: "top-center",
+        },
+      );
+    },
+    [refetch, navigate],
+  );
 
   return (
     <section className="flex flex-1 flex-col overflow-hidden">
@@ -14,7 +53,8 @@ const DashNoticias = () => {
       <Pagination total={data?.meta?.total || 0} busqueda={false} />
       <Separator />
 
-      <article className={`min-h-0 ${isError ? "flex-1" : "flex-7"}`}>
+      {/* Contenedor de tamaño fijo para evitar saltos */}
+      <article className="flex-1 min-h-0">
         <div className="h-full flex flex-col overflow-y-auto">
           {/* Si se esta haciendo el fetch */}
           {isLoading && (
@@ -70,9 +110,15 @@ const DashNoticias = () => {
                     <Button variant="ghost" size="icon" disabled>
                       <PencilSimple className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon">
-                      <Trash className="h-4 w-4" />
-                    </Button>
+
+                    {/* Eliminar */}
+                    <EliminarAlgo
+                      variant="ghost"
+                      confirmVariant="destructive"
+                      confirmLabel="Eliminar"
+                      descripcion={`¿Estás seguro de que querés eliminar la noticia "${noticia.titulo}"?`}
+                      onConfirm={() => eliminar(noticia.id, noticia.titulo)}
+                    />
                   </div>
                 </article>
               ))}

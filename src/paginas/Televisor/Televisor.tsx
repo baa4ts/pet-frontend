@@ -1,10 +1,12 @@
-import { getNoticiasTelevision } from "@/actions/tv/getNoticiasTelevision";
-import { formatearFecha } from "@/lib/formatearFecha";
-import { useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
+
 import { WifiSlash, XIcon } from "@phosphor-icons/react";
-import { EventosTelevision } from "@/components/television/EventosTelevision";
+import { useQuery } from "@tanstack/react-query";
+
+import { getNoticiasTelevision } from "@/actions/tv/getNoticiasTelevision";
 import { AusenciasTelevision } from "@/components/television/AusenciasTelevision";
+import { EventosTelevision } from "@/components/television/EventosTelevision";
+import { formatearFecha } from "@/lib/formatearFecha";
 
 const Televisor = () => {
   const [actual, setActual] = useState(0);
@@ -21,7 +23,7 @@ const Televisor = () => {
   const avanzar = useCallback(() => {
     setVisible(false);
     setTimeout(() => {
-      setActual(prev => (prev + 1) % noticias.length);
+      setActual((prev) => (prev + 1) % noticias.length);
       setRestante(8);
       setVisible(true);
     }, 400);
@@ -31,7 +33,7 @@ const Televisor = () => {
     if (noticias.length === 0) return;
     const interval = setInterval(avanzar, 8000);
     const countdown = setInterval(() => {
-      setRestante(prev => (prev <= 1 ? 8 : prev - 1));
+      setRestante((prev) => (prev <= 1 ? 8 : prev - 1));
     }, 1000);
     return () => {
       clearInterval(interval);
@@ -43,11 +45,9 @@ const Televisor = () => {
 
   return (
     <section className="flex-1 h-screen flex flex-row bg-slate-950 p-2 gap-2">
-
       {/* Noticia principal */}
       <article className="flex-7/10 flex flex-col">
         <div className="flex flex-1 rounded-lg overflow-hidden relative">
-
           {/* Error */}
           {isError && (
             <div className="w-full h-full flex items-center justify-center gap-2 bg-slate-900">
@@ -101,15 +101,15 @@ const Televisor = () => {
                   {noticias.map((_, i) => (
                     <div
                       key={i}
-                      className={`h-1 rounded-full transition-all duration-500 ${i === actual ? "bg-white w-4" : "bg-white/30 w-1"
-                        }`}
+                      className={`h-1 rounded-full transition-all duration-500 ${
+                        i === actual ? "bg-white w-4" : "bg-white/30 w-1"
+                      }`}
                     />
                   ))}
                 </div>
               </div>
             </>
           )}
-
         </div>
       </article>
 
@@ -118,7 +118,6 @@ const Televisor = () => {
         <AusenciasTelevision />
         <EventosTelevision />
       </article>
-
     </section>
   );
 };

@@ -2,6 +2,8 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router";
 
+import { Toaster } from "@/components/ui/sonner";
+
 import { AppRouter } from "./configuracion/AppRouter";
 import TanStack from "./configuracion/TanStack";
 import "./index.css";
@@ -10,6 +12,8 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <TanStack>
       <RouterProvider router={AppRouter} />
+
+      <Toaster />
     </TanStack>
   </StrictMode>,
 );

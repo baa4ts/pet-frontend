@@ -1,12 +1,14 @@
-import { getEventosTelevision } from '@/actions/tv/getEventosTelevision'
-import { formatearFecha } from '@/lib/formatearFecha'
-import { WifiSlash, XIcon } from '@phosphor-icons/react'
-import { useQuery } from '@tanstack/react-query'
-import { useCallback, useEffect, useState } from 'react'
-import { cn } from '@/lib/utils'
+import { useCallback, useEffect, useState } from "react";
+
+import { WifiSlash, XIcon } from "@phosphor-icons/react";
+import { useQuery } from "@tanstack/react-query";
+
+import { getEventosTelevision } from "@/actions/tv/getEventosTelevision";
+import { formatearFecha } from "@/lib/formatearFecha";
+import { cn } from "@/lib/utils";
 
 export const EventosTelevision = () => {
-  const [actual, setActual]   = useState(0);
+  const [actual, setActual] = useState(0);
   const [visible, setVisible] = useState(true);
   const [restante, setRestante] = useState(8);
 
@@ -20,7 +22,7 @@ export const EventosTelevision = () => {
   const avanzar = useCallback(() => {
     setVisible(false);
     setTimeout(() => {
-      setActual(prev => (prev + 1) % eventos.length);
+      setActual((prev) => (prev + 1) % eventos.length);
       setRestante(8);
       setVisible(true);
     }, 400);
@@ -28,9 +30,9 @@ export const EventosTelevision = () => {
 
   useEffect(() => {
     if (eventos.length === 0) return;
-    const interval  = setInterval(avanzar, 8000);
+    const interval = setInterval(avanzar, 8000);
     const countdown = setInterval(() => {
-      setRestante(prev => (prev <= 1 ? 8 : prev - 1));
+      setRestante((prev) => (prev <= 1 ? 8 : prev - 1));
     }, 1000);
     return () => {
       clearInterval(interval);
@@ -82,7 +84,7 @@ export const EventosTelevision = () => {
                   key={i}
                   className={cn(
                     "h-1 rounded-full transition-all duration-500",
-                    i === actual ? "bg-blue-400 w-4" : "bg-gray-200 w-1"
+                    i === actual ? "bg-blue-400 w-4" : "bg-gray-200 w-1",
                   )}
                 />
               ))}
