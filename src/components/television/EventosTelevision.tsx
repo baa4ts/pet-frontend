@@ -43,7 +43,7 @@ export const EventosTelevision = () => {
   return (
     <div className="flex-1 bg-white rounded-lg flex flex-col overflow-hidden relative">
       <div className="text-lg font-semibold py-2 px-3 border-b border-gray-200 flex items-center justify-between shrink-0">
-        <span>Próximo evento</span>
+        <span>Proximo evento</span>
         {!isError && eventos.length > 0 && (
           <span className="text-xs font-mono text-gray-400">{restante}s</span>
         )}

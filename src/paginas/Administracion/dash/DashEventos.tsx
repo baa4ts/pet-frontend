@@ -46,7 +46,7 @@ const DashEventos = () => {
               </div>
               <p className="text-sm font-medium">Error al cargar los datos</p>
               <p className="text-xs text-muted-foreground">
-                No se pudo obtener la información. Intentá de nuevo.
+                No se pudo obtener la informacion. Intenta de nuevo.
               </p>
               <Button variant="outline" size="sm" onClick={() => refetch()}>
                 Reintentar
@@ -97,7 +97,7 @@ const DashEventos = () => {
                       variant="ghost"
                       confirmVariant="destructive"
                       confirmLabel="Eliminar"
-                      descripcion={`¿Estás seguro de que querés eliminar el evento "${evento.nombre}"?`}
+                      descripcion={`¿Estas seguro de que queres eliminar el evento "${evento.nombre}"?`}
                       onConfirm={() => eliminar(evento.id, evento.nombre)}
                     />
                   </div>
