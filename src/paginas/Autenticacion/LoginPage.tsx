@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router";
 
 import { CircleNotch } from "@phosphor-icons/react";
 import { useForm } from "@tanstack/react-form";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -33,7 +34,7 @@ const LoginPage = () => {
             navigate("/perfil");
           },
           onError: (ctx) => {
-            alert(ctx.error.message);
+            toast.error(ctx.error.message, { position: "top-center" });
           },
         },
       );

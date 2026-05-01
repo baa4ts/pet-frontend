@@ -1,55 +1,30 @@
-import { useCallback } from "react";
-import { useNavigate } from "react-router";
-
 import { Eye, PencilSimple, WarningCircle } from "@phosphor-icons/react";
-import { toast } from "sonner";
 
-import { EliminarElemento } from "@/actions/dashboard/EliminarElemento";
 import { EliminarAlgo } from "@/components/dashboard/EliminarAlgo";
 import { Pagination } from "@/components/shared/Pagination";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useEliminar } from "@/hooks/actions-hooks/useEliminar";
 import { useEventosHook } from "@/hooks/actions-hooks/useEventosHook";
 
 const DashEventos = () => {
   const { data, isError, isLoading, refetch } = useEventosHook();
-  const navigate = useNavigate();
 
-  /*
-   * Elimina el evento y hace un refetch
-   */
-  const eliminar = useCallback(
-    (id: number, nombre: string) => {
-      toast.promise(
-        async () => {
-          // Hacer el delete
-          const check = await EliminarElemento({
-            id,
-            url: "eventos",
-
-            // Control de autenticacion
-            onError: (status) => {
-              if (status === 401) navigate("/login");
-              if (status === 403) navigate("/sin-permisos");
-            },
-          });
-          await refetch();
-          return check;
-        },
-        {
-          loading: `Eliminando "${nombre}"...`,
-          success: `"${nombre}" eliminado correctamente`,
-          error: `Error al eliminar "${nombre}"`,
-          position: "top-center",
-        },
-      );
+  const { eliminar } = useEliminar({
+    url: "eventos",
+    refetch,
+    mensajes: {
+      loading: (nombre) => `Eliminando "${nombre}"...`,
+      success: (nombre) => `"${nombre}" eliminado correctamente`,
+      error: (nombre) => `Error al eliminar "${nombre}"`,
     },
-    [refetch, navigate],
-  );
+    redireccion: {
+      forbidden: "/sin-permisos?seccion=eventos",
+    },
+  });
 
   return (
     <section className="flex flex-1 flex-col overflow-hidden">
-      {/* Paginador */}
       <Pagination total={data?.meta?.total || 0} busqueda={false} />
       <Separator />
 
@@ -133,7 +108,6 @@ const DashEventos = () => {
         </div>
       </article>
 
-      {/* Paginador */}
       <Separator />
       <Pagination total={data?.meta?.total || 0} busqueda={false} />
     </section>

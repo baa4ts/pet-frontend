@@ -1,55 +1,30 @@
-import { useCallback } from "react";
-import { useNavigate } from "react-router";
-
 import { Eye, PencilSimple, WarningCircle } from "@phosphor-icons/react";
-import { toast } from "sonner";
 
-import { EliminarElemento } from "@/actions/dashboard/EliminarElemento";
 import { EliminarAlgo } from "@/components/dashboard/EliminarAlgo";
 import { Pagination } from "@/components/shared/Pagination";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useEliminar } from "@/hooks/actions-hooks/useEliminar";
 import { useNoticiasHook } from "@/hooks/actions-hooks/useNoticiasHook";
 
 const DashNoticias = () => {
   const { data, isError, isLoading, refetch } = useNoticiasHook();
-  const navigate = useNavigate();
 
-  /*
-   * Elimina la noticia y hace un refetch
-   */
-  const eliminar = useCallback(
-    (id: number, titulo: string) => {
-      toast.promise(
-        async () => {
-          // Hacer el delete
-          const check = await EliminarElemento({
-            id,
-            url: "noticias",
-
-            // Control de autenticacion
-            onError: (status) => {
-              if (status === 401) navigate("/login");
-              if (status === 403) navigate("/sin-permisos");
-            },
-          });
-          await refetch();
-          return check;
-        },
-        {
-          loading: `Eliminando "${titulo}"...`,
-          success: `"${titulo}" eliminada correctamente`,
-          error: `Error al eliminar "${titulo}"`,
-          position: "top-center",
-        },
-      );
+  const { eliminar } = useEliminar({
+    url: "noticias",
+    refetch,
+    mensajes: {
+      loading: (titulo) => `Eliminando "${titulo}"...`,
+      success: (titulo) => `"${titulo}" eliminada correctamente`,
+      error: (titulo) => `Error al eliminar "${titulo}"`,
     },
-    [refetch, navigate],
-  );
+    redireccion: {
+      forbidden: "/sin-permisos?seccion=noticias",
+    },
+  });
 
   return (
     <section className="flex flex-1 flex-col overflow-hidden">
-      {/* Paginador */}
       <Pagination total={data?.meta?.total || 0} busqueda={false} />
       <Separator />
 
@@ -127,7 +102,6 @@ const DashNoticias = () => {
         </div>
       </article>
 
-      {/* Paginador */}
       <Separator />
       <Pagination total={data?.meta?.total || 0} busqueda={false} />
     </section>

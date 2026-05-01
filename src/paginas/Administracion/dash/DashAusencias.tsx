@@ -1,51 +1,27 @@
-import { useCallback } from "react";
-import { useNavigate } from "react-router";
-
 import { Eye, PencilSimple, WarningCircle } from "@phosphor-icons/react";
-import { toast } from "sonner";
 
-import { EliminarElemento } from "@/actions/dashboard/EliminarElemento";
 import { EliminarAlgo } from "@/components/dashboard/EliminarAlgo";
 import { Pagination } from "@/components/shared/Pagination";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useAusenciasHook } from "@/hooks/actions-hooks/useAusenciasHook";
+import { useEliminar } from "@/hooks/actions-hooks/useEliminar";
 
 const DashAusencias = () => {
   const { data, isError, isLoading, refetch } = useAusenciasHook();
-  const navigate = useNavigate();
 
-  /*
-   * Elimina la ausencia y hace un refetch
-   */
-  const eliminar = useCallback(
-    (id: number, materia: string) => {
-      toast.promise(
-        async () => {
-          // Hacer el delete
-          const check = await EliminarElemento({
-            id,
-            url: "ausencias",
-
-            // Control de autenticacion
-            onError: (status) => {
-              if (status === 401) navigate("/login");
-              if (status === 403) navigate("/sin-permisos");
-            },
-          });
-          await refetch();
-          return check;
-        },
-        {
-          loading: `Eliminando ausencia de ${materia}...`,
-          success: `Ausencia de ${materia} eliminada correctamente`,
-          error: `Error al eliminar la ausencia de ${materia}`,
-          position: "top-center",
-        },
-      );
+  const { eliminar } = useEliminar({
+    url: "ausencias",
+    refetch,
+    mensajes: {
+      loading: (materia) => `Eliminando ausencia de ${materia}...`,
+      success: (materia) => `Ausencia de ${materia} eliminada correctamente`,
+      error: (materia) => `Error al eliminar la ausencia de ${materia}`,
     },
-    [refetch, navigate],
-  );
+    redireccion: {
+      forbidden: "/sin-permisos?seccion=ausencias",
+    },
+  });
 
   return (
     <section className="flex flex-1 flex-col overflow-hidden">

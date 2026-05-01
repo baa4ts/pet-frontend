@@ -1,55 +1,30 @@
-import { useCallback } from "react";
-import { useNavigate } from "react-router";
-
 import { Eye, PencilSimple, WarningCircle } from "@phosphor-icons/react";
-import { toast } from "sonner";
 
-import { EliminarElemento } from "@/actions/dashboard/EliminarElemento";
 import { EliminarAlgo } from "@/components/dashboard/EliminarAlgo";
 import { Pagination } from "@/components/shared/Pagination";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useEliminar } from "@/hooks/actions-hooks/useEliminar";
 import { useUsuariosHook } from "@/hooks/actions-hooks/useUsuariosHook";
 
 const DashUsuarios = () => {
   const { data, isError, isLoading, refetch } = useUsuariosHook();
-  const navigate = useNavigate();
 
-  /*
-   * Elimina el usuario y hace un refetch
-   */
-  const eliminar = useCallback(
-    (id: string, name: string) => {
-      toast.promise(
-        async () => {
-          // Hacer el delete
-          const check = await EliminarElemento({
-            id,
-            url: "usuarios",
-
-            // Control de autenticacion
-            onError: (status) => {
-              if (status === 401) navigate("/login");
-              if (status === 403) navigate("/sin-permisos");
-            },
-          });
-          await refetch();
-          return check;
-        },
-        {
-          loading: `Eliminando a ${name}...`,
-          success: `${name} eliminado correctamente`,
-          error: `Error al eliminar a ${name}`,
-          position: "top-center",
-        },
-      );
+  const { eliminar } = useEliminar({
+    url: "usuarios",
+    refetch,
+    mensajes: {
+      loading: (name) => `Eliminando a ${name}...`,
+      success: (name) => `${name} eliminado correctamente`,
+      error: (name) => `Error al eliminar a ${name}`,
     },
-    [refetch, navigate],
-  );
+    redireccion: {
+      forbidden: "/sin-permisos?seccion=usuarios",
+    },
+  });
 
   return (
     <section className="flex flex-1 flex-col overflow-hidden">
-      {/* Paginador */}
       <Pagination
         total={data?.meta?.total || 0}
         busqueda={true}
@@ -130,7 +105,6 @@ const DashUsuarios = () => {
         </div>
       </article>
 
-      {/* Paginador */}
       <Separator />
       <Pagination total={data?.meta?.total || 0} busqueda={false} />
     </section>
