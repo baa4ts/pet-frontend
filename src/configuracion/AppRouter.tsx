@@ -20,6 +20,7 @@ import Televisor from "@/paginas/Televisor/Televisor";
 import AusenciasForm from "@/paginas/nuevos/AusenciasForm";
 import EventosForm from "@/paginas/nuevos/EventosForm";
 import NoticiasForm from "@/paginas/nuevos/NoticiasForm";
+import { SelectorUsuarios } from "@/paginas/selector/SelectorUsuarios";
 
 import HomePage from "../paginas/HomePage";
 
@@ -166,6 +167,21 @@ export const AppRouter = createBrowserRouter([
         loader: () =>
           requierePermiso("noticias", "/dashboard/sin-permisos?seccion=noticias"),
         element: <NoticiasForm />,
+      },
+    ],
+  },
+  /**
+   * Seccion para los selectores
+   */
+  {
+    path: "/selector",
+    loader: requiereSession,
+    children: [
+      {
+        path: "usuarios",
+        loader: () =>
+          requierePermiso("usuarios", "/dashboard/sin-permisos?seccion=usuarios"),
+        element: <SelectorUsuarios />,
       },
     ],
   },

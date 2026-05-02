@@ -1,16 +1,25 @@
-import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router";
 
 import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 
+import { actionActualizarEvento } from "@/actions/dashboard/actualizarEventos";
+import { getEventoUnico } from "@/actions/dashboard/getEventoUnico";
 import { actionNuevoEvento } from "@/actions/nuevo/actionNuevoEvento";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
+const toLocal = (iso: string) => iso.slice(0, 16);
+
 const EventosForm = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const updateId = searchParams.get("update");
+  const isEditing = !!updateId;
+  const [cargando, setCargando] = useState(isEditing);
 
   const form = useForm({
     defaultValues: {
@@ -20,22 +29,75 @@ const EventosForm = () => {
       fechaFin: null as string | null,
     },
     onSubmit: async ({ value }) => {
-      const id = toast.loading(`Creando "${value.nombre}"...`, {
-        position: "top-center",
-      });
-      const ok = await actionNuevoEvento(value);
+      const toastId = toast.loading(
+        isEditing ? `Actualizando "${value.nombre}"...` : `Creando "${value.nombre}"...`,
+        { position: "top-center" },
+      );
+
+      const ok = isEditing
+        ? await actionActualizarEvento(Number(updateId), value)
+        : await actionNuevoEvento(value);
 
       if (ok) {
-        toast.success(`"${value.nombre}" creado correctamente`, {
-          id,
-          position: "top-center",
-        });
-        setTimeout(() => navigate("/dashboard/eventos", { replace: true }), 1000);
+        toast.success(
+          isEditing
+            ? `"${value.nombre}" actualizado correctamente`
+            : `"${value.nombre}" creado correctamente`,
+          { id: toastId, position: "top-center" },
+        );
+        setTimeout(() => navigate("/dashboard/eventos", { replace: true }), 500);
       } else {
-        toast.error(`Error al crear "${value.nombre}"`, { id, position: "top-center" });
+        toast.error(
+          isEditing
+            ? `Error al actualizar "${value.nombre}"`
+            : `Error al crear "${value.nombre}"`,
+          { id: toastId, position: "top-center" },
+        );
       }
     },
   });
+
+  /**
+   * Si hay un evento para editar
+   */
+  useEffect(() => {
+    if (!updateId) return;
+
+    /**
+     * Si hay un evento para editar
+     */
+    getEventoUnico(Number(updateId))
+      .then((res) => {
+        /**
+         * Si se obtiene la noticia setear los valores
+         */
+        const evento = res.data[0];
+        form.setFieldValue("nombre", evento.nombre);
+        form.setFieldValue("descripcion", evento.descripcion);
+        form.setFieldValue("fechaInicio", toLocal(evento.fechaInicio));
+        form.setFieldValue("fechaFin", evento.fechaFin ? toLocal(evento.fechaFin) : null);
+      })
+      .catch(() => {
+        /**
+         *
+         * Si no se pudo obtener el evento a editar. redireccion a nueva
+         *
+         */
+        toast.warning("No se encontro el evento, creando uno nuevo", {
+          position: "top-center",
+        });
+        navigate("/nuevo/eventos", { replace: true });
+      })
+      .finally(() => setCargando(false));
+  }, [updateId]);
+
+  if (cargando) {
+    return (
+      <section className="flex items-center justify-center h-full">
+        <p className="text-sm text-muted-foreground">Cargando...</p>
+      </section>
+    );
+  }
 
   return (
     <section className="flex items-center justify-center h-full">
@@ -46,9 +108,11 @@ const EventosForm = () => {
         }}
         className="flex flex-col gap-4 w-full max-w-md"
       >
-        <h1 className="text-2xl">Crear un nuevo evento</h1>
+        <h1 className="text-2xl">
+          {isEditing ? "Editar evento" : "Crear un nuevo evento"}
+        </h1>
 
-        {/* Nombre */}
+        {/* Nombre del evento */}
         <form.Field
           name="nombre"
           validators={{
@@ -72,7 +136,7 @@ const EventosForm = () => {
           )}
         </form.Field>
 
-        {/* Descripcion */}
+        {/* Descripcion del evento */}
         <form.Field name="descripcion">
           {(field) => (
             <div className="flex flex-col gap-1.5">
@@ -89,7 +153,7 @@ const EventosForm = () => {
           )}
         </form.Field>
 
-        {/* Fecha inicio */}
+        {/* Fecha de inicio */}
         <form.Field
           name="fechaInicio"
           validators={{
@@ -114,7 +178,7 @@ const EventosForm = () => {
           )}
         </form.Field>
 
-        {/* Fecha fin */}
+        {/* Fecha de finalizacion */}
         <form.Field name="fechaFin">
           {(field) => (
             <div className="flex flex-col gap-1.5">
@@ -136,7 +200,7 @@ const EventosForm = () => {
         <form.Subscribe selector={(s) => s.canSubmit}>
           {(canSubmit) => (
             <Button type="submit" disabled={!canSubmit}>
-              Crear evento
+              {isEditing ? "Guardar cambios" : "Crear evento"}
             </Button>
           )}
         </form.Subscribe>

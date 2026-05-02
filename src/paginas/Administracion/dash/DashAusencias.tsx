@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 import { Eye, PencilSimple, WarningCircle } from "@phosphor-icons/react";
 
 import { AgregarAlgo } from "@/components/dashboard/AgregarAlgo";
@@ -76,7 +78,7 @@ const DashAusencias = () => {
                   <span className="w-8 text-sm text-muted-foreground">{ausencia.id}</span>
                   <span className="flex-1 truncate font-medium">{ausencia.materia}</span>
                   <span className="text-sm text-muted-foreground">
-                    {new Date(ausencia.fecha).toLocaleDateString()}
+                    {new Date(ausencia.fecha).toLocaleString()}
                   </span>
                   <span className="truncate hidden md:block text-sm font-medium">
                     {ausencia.docente.name}
@@ -85,8 +87,17 @@ const DashAusencias = () => {
                     <Button variant="ghost" size="icon" disabled>
                       <Eye className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" disabled>
-                      <PencilSimple className="h-4 w-4" />
+
+                    {/* Editar */}
+                    <Button variant="ghost" size="icon" asChild>
+                      <Link
+                        to={{
+                          pathname: "/nuevo/ausencias",
+                          search: `?update=${ausencia.id}`,
+                        }}
+                      >
+                        <PencilSimple className="h-4 w-4" />
+                      </Link>
                     </Button>
 
                     {/* Eliminar */}

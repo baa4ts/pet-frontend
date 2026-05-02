@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 import { Eye, PencilSimple, WarningCircle } from "@phosphor-icons/react";
 
 import { AgregarAlgo } from "@/components/dashboard/AgregarAlgo";
@@ -86,8 +88,17 @@ const DashNoticias = () => {
                     <Button variant="ghost" size="icon" disabled>
                       <Eye className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" disabled>
-                      <PencilSimple className="h-4 w-4" />
+
+                    {/* Editar */}
+                    <Button variant="ghost" size="icon" asChild>
+                      <Link
+                        to={{
+                          pathname: "/nuevo/noticias",
+                          search: `?update=${noticia.id}`,
+                        }}
+                      >
+                        <PencilSimple className="h-4 w-4" />
+                      </Link>
                     </Button>
 
                     {/* Eliminar */}
