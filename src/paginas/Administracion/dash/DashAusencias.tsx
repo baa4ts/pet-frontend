@@ -1,4 +1,4 @@
-import { Eye, PencilSimple, PlusCircleIcon, WarningCircle } from "@phosphor-icons/react";
+import { Eye, PencilSimple, WarningCircle } from "@phosphor-icons/react";
 
 import { AgregarAlgo } from "@/components/dashboard/AgregarAlgo";
 import { EliminarAlgo } from "@/components/dashboard/EliminarAlgo";
