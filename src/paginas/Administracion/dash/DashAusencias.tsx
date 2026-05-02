@@ -1,5 +1,6 @@
-import { Eye, PencilSimple, WarningCircle } from "@phosphor-icons/react";
+import { Eye, PencilSimple, PlusCircleIcon, WarningCircle } from "@phosphor-icons/react";
 
+import { AgregarAlgo } from "@/components/dashboard/AgregarAlgo";
 import { EliminarAlgo } from "@/components/dashboard/EliminarAlgo";
 import { Pagination } from "@/components/shared/Pagination";
 import { Button } from "@/components/ui/button";
@@ -67,6 +68,9 @@ const DashAusencias = () => {
           {/* Si todo fue correcto */}
           {!isLoading && !isError && data?.data && data.data.length > 0 && (
             <section className="flex flex-col divide-y divide-border p-5">
+              {/* Componente para redigir a la seccion de crear */}
+              <AgregarAlgo url="/nuevo/ausencias" />
+
               {data.data.map((ausencia) => (
                 <article key={ausencia.id} className="flex items-center gap-3 py-3">
                   <span className="w-8 text-sm text-muted-foreground">{ausencia.id}</span>

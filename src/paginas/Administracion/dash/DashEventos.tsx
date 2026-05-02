@@ -1,5 +1,6 @@
 import { Eye, PencilSimple, WarningCircle } from "@phosphor-icons/react";
 
+import { AgregarAlgo } from "@/components/dashboard/AgregarAlgo";
 import { EliminarAlgo } from "@/components/dashboard/EliminarAlgo";
 import { Pagination } from "@/components/shared/Pagination";
 import { Button } from "@/components/ui/button";
@@ -64,6 +65,9 @@ const DashEventos = () => {
           {/* Si todo fue correcto */}
           {!isLoading && !isError && data?.data && data.data.length > 0 && (
             <section className="flex flex-col divide-y divide-border p-5">
+              {/* Componente para redigir a la seccion de crear */}
+              <AgregarAlgo url="/nuevo/eventos" />
+
               {data.data.map((evento) => (
                 <article key={evento.id} className="flex items-center gap-3 py-3">
                   <span className="w-8 text-sm text-muted-foreground">{evento.id}</span>

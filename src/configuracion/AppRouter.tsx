@@ -139,4 +139,28 @@ export const AppRouter = createBrowserRouter([
       },
     ],
   },
+  /**
+   * Seccion para crear
+   */
+  {
+    path: "/nuevo",
+    loader: requiereSession,
+    children: [
+      {
+        path: "eventos",
+        loader: () =>
+          requierePermiso("eventos", "/dashboard/sin-permisos?seccion=eventos"),
+      },
+      {
+        path: "ausencias",
+        loader: () =>
+          requierePermiso("ausencias", "/dashboard/sin-permisos?seccion=ausencias"),
+      },
+      {
+        path: "noticias",
+        loader: () =>
+          requierePermiso("noticias", "/dashboard/sin-permisos?seccion=noticias"),
+      },
+    ],
+  },
 ]);
