@@ -17,6 +17,9 @@ import LoginPage from "@/paginas/Autenticacion/LoginPage";
 import RegisterPage from "@/paginas/Autenticacion/RegisterPage";
 import Perfil from "@/paginas/Perfil/Perfil";
 import Televisor from "@/paginas/Televisor/Televisor";
+import AusenciasForm from "@/paginas/nuevos/AusenciasForm";
+import EventosForm from "@/paginas/nuevos/EventosForm";
+import NoticiasForm from "@/paginas/nuevos/NoticiasForm";
 
 import HomePage from "../paginas/HomePage";
 
@@ -150,16 +153,19 @@ export const AppRouter = createBrowserRouter([
         path: "eventos",
         loader: () =>
           requierePermiso("eventos", "/dashboard/sin-permisos?seccion=eventos"),
+        element: <EventosForm />,
       },
       {
         path: "ausencias",
         loader: () =>
           requierePermiso("ausencias", "/dashboard/sin-permisos?seccion=ausencias"),
+        element: <AusenciasForm />,
       },
       {
         path: "noticias",
         loader: () =>
           requierePermiso("noticias", "/dashboard/sin-permisos?seccion=noticias"),
+        element: <NoticiasForm />,
       },
     ],
   },
