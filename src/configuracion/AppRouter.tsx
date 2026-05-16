@@ -20,7 +20,12 @@ import Televisor from "@/paginas/Televisor/Televisor";
 import AusenciasForm from "@/paginas/nuevos/AusenciasForm";
 import EventosForm from "@/paginas/nuevos/EventosForm";
 import NoticiasForm from "@/paginas/nuevos/NoticiasForm";
+import { PermisosForm } from "@/paginas/nuevos/PermisosForm";
 import { SelectorUsuarios } from "@/paginas/selector/SelectorUsuarios";
+import VentanaAusencia from "@/paginas/ventanas/VentanaAusencia";
+import VentanaEvento from "@/paginas/ventanas/VentanaEvento";
+import VentanaNoticia from "@/paginas/ventanas/VentanaNoticia";
+import VentanaUsuario from "@/paginas/ventanas/VentanaUsuario";
 
 import HomePage from "../paginas/HomePage";
 
@@ -134,6 +139,7 @@ export const AppRouter = createBrowserRouter([
           },
         ],
       },
+
       /**
        * Seccion sin permisos
        */
@@ -144,7 +150,40 @@ export const AppRouter = createBrowserRouter([
     ],
   },
   /**
-   * Seccion para crear
+   * Seccion ventanas
+   */
+  {
+    path: "ventanas",
+    loader: requiereSession,
+    children: [
+      {
+        path: "ausencia/:id",
+        loader: () =>
+          requierePermiso("ausencias", "/dashboard/sin-permisos?seccion=ausencias"),
+        element: <VentanaAusencia />,
+      },
+      {
+        path: "evento/:id",
+        loader: () =>
+          requierePermiso("eventos", "/dashboard/sin-permisos?seccion=eventos"),
+        element: <VentanaEvento />,
+      },
+      {
+        path: "noticia/:id",
+        loader: () =>
+          requierePermiso("noticias", "/dashboard/sin-permisos?seccion=noticias"),
+        element: <VentanaNoticia />,
+      },
+      {
+        path: "usuario/:id",
+        loader: () =>
+          requierePermiso("usuarios", "/dashboard/sin-permisos?seccion=usuarios"),
+        element: <VentanaUsuario />,
+      },
+    ],
+  },
+  /**
+   * Seccion para crear y editar
    */
   {
     path: "/nuevo",
@@ -167,6 +206,25 @@ export const AppRouter = createBrowserRouter([
         loader: () =>
           requierePermiso("noticias", "/dashboard/sin-permisos?seccion=noticias"),
         element: <NoticiasForm />,
+      },
+
+      /**
+       * Seccion para editar permisos
+       */
+      {
+        path: "permisos",
+        children: [
+          {
+            index: true,
+            loader: () => redirect("/dashboard"),
+          },
+          {
+            path: ":id",
+            loader: () =>
+              requierePermiso("permisos", "/dashboard/sin-permisos?seccion=permisos"),
+            element: <PermisosForm />,
+          },
+        ],
       },
     ],
   },

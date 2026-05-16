@@ -3,12 +3,14 @@ import { useNavigate } from "react-router";
 
 import { Cliente } from "@/configuracion/Cliente";
 
-export const CerrarSession = useCallback(() => {
+export const useCerrarSession = () => {
   const navigate = useNavigate();
 
-  Cliente.signOut({
-    fetchOptions: {
-      onSuccess: () => navigate({ pathname: "/autenticacion/login" }, { replace: true }),
-    },
-  });
-}, []);
+  return useCallback(() => {
+    Cliente.signOut({
+      fetchOptions: {
+        onSuccess: () => navigate("/autenticacion/login", { replace: true }),
+      },
+    });
+  }, [navigate]);
+};

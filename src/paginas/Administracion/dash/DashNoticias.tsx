@@ -1,9 +1,10 @@
 import { Link } from "react-router";
 
-import { Eye, PencilSimple, WarningCircle } from "@phosphor-icons/react";
+import { PencilSimple, WarningCircle } from "@phosphor-icons/react";
 
 import { AgregarAlgo } from "@/components/dashboard/AgregarAlgo";
 import { EliminarAlgo } from "@/components/dashboard/EliminarAlgo";
+import BotonVentana from "@/components/shared/BotonVentana";
 import { Pagination } from "@/components/shared/Pagination";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -85,9 +86,11 @@ const DashNoticias = () => {
                     {new Date(noticia.createdAt).toLocaleDateString()}
                   </span>
                   <div className="flex items-center gap-1">
-                    <Button variant="ghost" size="icon" disabled>
-                      <Eye className="h-4 w-4" />
-                    </Button>
+                    <BotonVentana
+                      url={`/ventanas/noticia/${noticia.id}`}
+                      width={680}
+                      height={520}
+                    />
 
                     {/* Editar */}
                     <Button variant="ghost" size="icon" asChild>

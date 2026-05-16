@@ -1,6 +1,9 @@
-import { Eye, PencilSimple, WarningCircle } from "@phosphor-icons/react";
+import { Link } from "react-router";
+
+import { PencilSimple, WarningCircle } from "@phosphor-icons/react";
 
 import { EliminarAlgo } from "@/components/dashboard/EliminarAlgo";
+import BotonVentana from "@/components/shared/BotonVentana";
 import { Pagination } from "@/components/shared/Pagination";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -78,15 +81,18 @@ const DashUsuarios = () => {
                   <span className="text-sm text-muted-foreground truncate hidden md:block">
                     {usuario.email}
                   </span>
-                  <span className="text-sm font-medium truncate hidden lg:block">
-                    {usuario.role}
-                  </span>
                   <div className="flex items-center gap-1">
-                    <Button variant="ghost" size="icon" disabled>
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon" disabled>
-                      <PencilSimple className="h-4 w-4" />
+                    <BotonVentana url={`/ventanas/usuario/${usuario.id}`} width={500} />
+
+                    {/* Editar */}
+                    <Button variant="ghost" size="icon" asChild>
+                      <Link
+                        to={{
+                          pathname: `/nuevo/permisos/${usuario.id}`,
+                        }}
+                      >
+                        <PencilSimple className="h-4 w-4" />
+                      </Link>
                     </Button>
 
                     {/* Eliminar */}
