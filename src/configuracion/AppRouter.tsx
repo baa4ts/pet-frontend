@@ -135,7 +135,10 @@ export const AppRouter = createBrowserRouter([
           {
             path: "usuarios",
             loader: () =>
-              requiereVariosPermisos(["usuarios", "permisos"], "/dashboard/sin-permisos?seccion=usuarios"),
+              requiereVariosPermisos(
+                ["usuarios", "permisos"],
+                "/dashboard/sin-permisos?seccion=usuarios",
+              ),
             element: <DashUsuarios />,
           },
         ],
@@ -222,7 +225,10 @@ export const AppRouter = createBrowserRouter([
           {
             path: ":id",
             loader: () =>
-              requiereVariosPermisos(["permisos", "usuarios"], "/dashboard/sin-permisos?seccion=permisos"),
+              requiereVariosPermisos(
+                ["permisos", "usuarios"],
+                "/dashboard/sin-permisos?seccion=permisos",
+              ),
             element: <PermisosForm />,
           },
         ],

@@ -58,7 +58,7 @@ export function AppSidebar() {
   const tieneTodos = useCallback(
     (lista: string[]): boolean => lista.every((p) => tienePermiso(permisos, p)),
     [permisos],
-  )
+  );
 
   // Subrayado en rojo para seccion sin permisos
   const claseItem = (lista: string[]) =>

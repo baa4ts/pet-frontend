@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getNoticiasTelevision } from "@/actions/tv/getNoticiasTelevision";
 import { AusenciasTelevision } from "@/components/television/AusenciasTelevision";
 import { EventosTelevision } from "@/components/television/EventosTelevision";
+import { socket } from "@/configuracion/socket";
 import { formatearFecha } from "@/lib/formatearFecha";
 
 const Televisor = () => {
@@ -13,11 +14,17 @@ const Televisor = () => {
   const [restante, setRestante] = useState(8);
   const [visible, setVisible] = useState(true);
 
-  const { data: noticias = [], isError } = useQuery({
+  const {
+    data: noticias = [],
+    isError,
+    refetch,
+  } = useQuery({
     queryKey: ["noticias", "tv"],
     queryFn: getNoticiasTelevision,
-    refetchInterval: 10_000,
-    staleTime: 10_000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    refetchInterval: false,
   });
 
   const avanzar = useCallback(() => {
@@ -29,6 +36,9 @@ const Televisor = () => {
     }, 400);
   }, [noticias.length]);
 
+  /**
+   * Efecto para anvanzar
+   */
   useEffect(() => {
     if (noticias.length === 0) return;
     const interval = setInterval(avanzar, 8000);
@@ -40,6 +50,16 @@ const Televisor = () => {
       clearInterval(countdown);
     };
   }, [avanzar, noticias.length]);
+
+  /**
+   * Hacer refetch solo si avisan
+   */
+  useEffect(() => {
+    socket.on("noticias", () => refetch());
+    return () => {
+      socket.off("noticias");
+    };
+  }, [refetch]);
 
   const noticia = noticias[actual];
 
@@ -69,7 +89,9 @@ const Televisor = () => {
             <>
               <img
                 className="w-full h-full object-cover"
-                src={"http://localhost:3000/api/static/" + noticia.recursos[0]?.url}
+                src={
+                  `${import.meta.env.VITE_API_URL}/api/static/` + noticia.recursos[0]?.url
+                }
                 alt={noticia.titulo}
                 style={{ opacity: visible ? 1 : 0, transition: "opacity 400ms" }}
               />

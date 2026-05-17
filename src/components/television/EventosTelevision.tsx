@@ -4,6 +4,7 @@ import { WifiSlash, XIcon } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
 
 import { getEventosTelevision } from "@/actions/tv/getEventosTelevision";
+import { socket } from "@/configuracion/socket";
 import { formatearFecha } from "@/lib/formatearFecha";
 import { cn } from "@/lib/utils";
 
@@ -12,13 +13,18 @@ export const EventosTelevision = () => {
   const [visible, setVisible] = useState(true);
   const [restante, setRestante] = useState(8);
 
-  const { data: eventos = [], isError } = useQuery({
+  const {
+    data: eventos = [],
+    isError,
+    refetch,
+  } = useQuery({
     queryKey: ["eventos", "tv"],
     queryFn: getEventosTelevision,
-    refetchInterval: 10_000,
-    staleTime: 10_000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    refetchInterval: false,
   });
-
   const avanzar = useCallback(() => {
     setVisible(false);
     setTimeout(() => {
@@ -28,6 +34,9 @@ export const EventosTelevision = () => {
     }, 400);
   }, [eventos.length]);
 
+  /**
+   * Efecto para anvanzar
+   */
   useEffect(() => {
     if (eventos.length === 0) return;
     const interval = setInterval(avanzar, 8000);
@@ -39,6 +48,16 @@ export const EventosTelevision = () => {
       clearInterval(countdown);
     };
   }, [avanzar, eventos.length]);
+
+  /**
+   * Hacer refetch solo si avisan
+   */
+  useEffect(() => {
+    socket.on("eventos", () => refetch());
+    return () => {
+      socket.off("eventos");
+    };
+  }, [refetch]);
 
   return (
     <div className="flex-1 bg-white rounded-lg flex flex-col overflow-hidden relative">

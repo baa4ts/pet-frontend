@@ -41,9 +41,9 @@ export async function requiereVariosPermisos(permisos: string[], url: string) {
     throw redirect("/autenticacion/login");
   }
 
-  const tieneVarios = permisos.every(p =>
-    tienePermiso(session.data!.user.permisos || "", p)
-  )
+  const tieneVarios = permisos.every((p) =>
+    tienePermiso(session.data!.user.permisos || "", p),
+  );
 
   if (!tieneVarios) {
     throw redirect(url);

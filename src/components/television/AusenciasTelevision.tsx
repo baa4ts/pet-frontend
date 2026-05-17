@@ -1,17 +1,36 @@
+import { useEffect } from "react";
+
 import { WifiSlash, XIcon } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
 
 import { getAusenciasTelevision } from "@/actions/tv/getAusenciasTelevision";
+import { socket } from "@/configuracion/socket";
 import { formatearFecha } from "@/lib/formatearFecha";
 import { cn } from "@/lib/utils";
 
 export const AusenciasTelevision = () => {
-  const { data: ausencias = [], isError } = useQuery({
+  const {
+    data: ausencias = [],
+    isError,
+    refetch,
+  } = useQuery({
     queryKey: ["ausencias", "tv"],
     queryFn: getAusenciasTelevision,
-    refetchInterval: 10_000,
-    staleTime: 10_000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    refetchInterval: false,
   });
+
+  /**
+   * Hacer refetch solo si avisan
+   */
+  useEffect(() => {
+    socket.on("ausencias", () => refetch());
+    return () => {
+      socket.off("ausencias");
+    };
+  }, [refetch]);
 
   const activo = ausencias.length > 2;
 
