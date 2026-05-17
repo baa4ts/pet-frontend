@@ -33,3 +33,19 @@ export async function requierePermiso(permiso: string, url: string) {
     throw redirect(url);
   }
 }
+
+export async function requiereVariosPermisos(permisos: string[], url: string) {
+  const session = await Cliente.getSession();
+
+  if (!session.data) {
+    throw redirect("/autenticacion/login");
+  }
+
+  const tieneVarios = permisos.every(p =>
+    tienePermiso(session.data!.user.permisos || "", p)
+  )
+
+  if (!tieneVarios) {
+    throw redirect(url);
+  }
+}

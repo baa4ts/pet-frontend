@@ -4,6 +4,7 @@ import {
   requierePermiso,
   requiereSession,
   requiereSinSession,
+  requiereVariosPermisos,
 } from "@/loaders/ClienteLoader";
 import LayoutDashboard from "@/paginas/Administracion/LayoutDashboard";
 import LayoutFilters from "@/paginas/Administracion/LayoutFilters";
@@ -134,7 +135,7 @@ export const AppRouter = createBrowserRouter([
           {
             path: "usuarios",
             loader: () =>
-              requierePermiso("usuarios", "/dashboard/sin-permisos?seccion=usuarios"),
+              requiereVariosPermisos(["usuarios", "permisos"], "/dashboard/sin-permisos?seccion=usuarios"),
             element: <DashUsuarios />,
           },
         ],
@@ -221,7 +222,7 @@ export const AppRouter = createBrowserRouter([
           {
             path: ":id",
             loader: () =>
-              requierePermiso("permisos", "/dashboard/sin-permisos?seccion=permisos"),
+              requiereVariosPermisos(["permisos", "usuarios"], "/dashboard/sin-permisos?seccion=permisos"),
             element: <PermisosForm />,
           },
         ],

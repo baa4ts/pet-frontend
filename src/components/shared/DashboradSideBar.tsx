@@ -54,6 +54,12 @@ export function AppSidebar() {
     [permisos],
   );
 
+  // Tiene TODOS de la lista
+  const tieneTodos = useCallback(
+    (lista: string[]): boolean => lista.every((p) => tienePermiso(permisos, p)),
+    [permisos],
+  )
+
   // Subrayado en rojo para seccion sin permisos
   const claseItem = (lista: string[]) =>
     !tieneAlguno(lista) ? "line-through decoration-red-500" : "";
@@ -135,7 +141,7 @@ export function AppSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  disabled={!tieneAlguno(["usuarios"])}
+                  disabled={!tieneTodos(["usuarios", "permisos"])}
                   className={claseItem(["usuarios"])}
                   onClick={() => navigate("/dashboard/usuarios")}
                 >
