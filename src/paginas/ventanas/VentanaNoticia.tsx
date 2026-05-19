@@ -33,7 +33,7 @@ const VentanaNoticia = () => {
         {noticia.recursos[0]?.url ? (
           <img
             className="w-full h-full object-cover"
-            src={`${import.meta.env.VITE_API_URL}/api/static/${noticia.recursos[0].url}`}
+            src={`http://localhost:3000/api/static/${noticia.recursos[0].url}`}
             alt={noticia.titulo}
           />
         ) : (
@@ -60,7 +60,7 @@ const VentanaNoticia = () => {
             {noticia.recursos.map((r, i) => (
               <img
                 key={i}
-                src={`${import.meta.env.VITE_API_URL}/api/static/${r.url}`}
+                src={`http://localhost:3000/api/static/${r.url}`}
                 className="h-12 w-12 rounded-md object-cover flex-shrink-0 border border-white/10"
               />
             ))}

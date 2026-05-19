@@ -133,7 +133,7 @@ const NoticiasForm = () => {
            */
           const filesExistentes = await Promise.all(
             noticia.recursos.map(async (r) => {
-              const url = `${import.meta.env.VITE_API_URL}/api/static/${r.url}`;
+              const url = `http://localhost:3000/api/static/${r.url}`;
               const response = await fetch(url);
               const blob = await response.blob();
               return new File([blob], r.url, { type: blob.type });
