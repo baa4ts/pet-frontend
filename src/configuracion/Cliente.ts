@@ -5,7 +5,7 @@ const Cliente = createAuthClient({
   /**
    * Backend
    */
-  baseURL: "http://localhost:3000",
+  baseURL: window.location.origin,
   /**
    * Plugins de better-auth
    */

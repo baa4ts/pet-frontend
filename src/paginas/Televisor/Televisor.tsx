@@ -90,7 +90,7 @@ const Televisor = () => {
               <img
                 className="w-full h-full object-cover"
                 src={
-                  `http://localhost:3000/api/static/` + noticia.recursos[0]?.url
+                  `/api/static/` + noticia.recursos[0]?.url
                 }
                 alt={noticia.titulo}
                 style={{ opacity: visible ? 1 : 0, transition: "opacity 400ms" }}
