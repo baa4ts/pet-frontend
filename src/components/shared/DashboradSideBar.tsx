@@ -39,9 +39,9 @@ export function AppSidebar() {
   const { data: session } = Cliente.useSession();
   const navigate = useNavigate();
 
-  const permisos = session?.user.permisos ?? "";
+  const permisos = session?.user?.permisos ?? "";
 
-  const iniciales = session?.user.name
+  const iniciales = session?.user?.name
     ?.split(" ")
     .map((n) => n[0])
     .join("")
