@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import {
   CalendarBlank,
   House,
+  Image,
   Newspaper,
   Television,
   UserMinus,
@@ -128,8 +129,22 @@ export function AppSidebar() {
                   Eventos
                 </SidebarMenuButton>
               </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  disabled={!tieneAlguno(["recursos"])}
+                  className={claseItem(["recursos"])}
+                  onClick={() => navigate("/dashboard/recursos")}
+                >
+                  <Image size={16} />
+                  Recursos
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
             </SidebarMenu>
           </SidebarGroupContent>
+
+
         </SidebarGroup>
 
         <SidebarSeparator />

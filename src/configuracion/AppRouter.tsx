@@ -29,6 +29,8 @@ import VentanaNoticia from "@/paginas/ventanas/VentanaNoticia";
 import VentanaUsuario from "@/paginas/ventanas/VentanaUsuario";
 
 import HomePage from "../paginas/HomePage";
+import DashRecursos from "@/paginas/Administracion/dash/DashRecursos";
+import RecursosForm from "@/paginas/nuevos/RecursosForm";
 
 export const AppRouter = createBrowserRouter([
   /**
@@ -142,6 +144,12 @@ export const AppRouter = createBrowserRouter([
               ),
             element: <DashUsuarios />,
           },
+          {
+            path: "recursos",
+            loader: () =>
+              requierePermiso("recursos", "/dashboard/sin-permisos?seccion=recursos"),
+            element: <DashRecursos />,
+          }
         ],
       },
 
@@ -211,6 +219,12 @@ export const AppRouter = createBrowserRouter([
         loader: () =>
           requierePermiso("noticias", "/dashboard/sin-permisos?seccion=noticias"),
         element: <NoticiasForm />,
+      },
+      {
+        path: "recursos",
+        loader: () =>
+          requierePermiso("recursos", "/dashboard/sin-permisos?seccion=recursos"),
+        element: <RecursosForm />,
       },
 
       /**
