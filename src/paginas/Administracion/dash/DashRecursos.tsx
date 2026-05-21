@@ -113,7 +113,7 @@ const DashRecursos = () => {
             </div>
           )}
 
-          {/* Vacío */}
+          {/* Vacio */}
           {!isLoading && !isError && data?.data.length === 0 && (
             <div className="flex flex-1 flex-col items-center justify-center p-8">
               <p className="text-sm text-muted-foreground">
@@ -125,7 +125,7 @@ const DashRecursos = () => {
             </div>
           )}
 
-          {/* Galería */}
+          {/* Galeria */}
           {!isLoading && !isError && data?.data && data.data.length > 0 && (
             <section className="flex flex-col p-5 gap-4">
               <AgregarAlgo url="/nuevo/recursos" />
@@ -147,7 +147,7 @@ const DashRecursos = () => {
                       {recurso.tipo ?? "desconocido"}
                     </span>
 
-                    {/* X con confirmación */}
+                    {/* X con confirmacion */}
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <button className="absolute top-1.5 right-1.5 z-10 bg-black/60 hover:bg-destructive text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-all duration-200 cursor-pointer">
@@ -158,7 +158,7 @@ const DashRecursos = () => {
                         <AlertDialogHeader>
                           <AlertDialogTitle>¿Estas seguro?</AlertDialogTitle>
                           <AlertDialogDescription>
-                            ¿Queres eliminar "{recurso.url}"? Esta acción no se puede deshacer.
+                            ¿Queres eliminar "{recurso.url}"? Esta accion no se puede deshacer.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>

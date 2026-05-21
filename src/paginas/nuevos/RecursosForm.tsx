@@ -127,7 +127,7 @@ const RecursosForm = () => {
                         >
                             <UploadSimple size={28} />
                             <p className="text-sm">
-                                Arrastra un archivo o <span className="underline">seleccioná</span>
+                                Arrastra un archivo o <span className="underline">selecciona</span>
                             </p>
                             <p className="text-xs">{FORMATOS.join(", ")} — max. 10MB</p>
                         </div>
