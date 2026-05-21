@@ -36,6 +36,7 @@ export const AppRouter = createBrowserRouter([
    */
   {
     index: true,
+    loader: () => redirect("/autenticacion/login"),
     element: <HomePage />,
   },
 

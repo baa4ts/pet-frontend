@@ -65,6 +65,11 @@ const DashAusencias = () => {
               <p className="text-sm text-muted-foreground">
                 No hay ausencias registradas.
               </p>
+              <Button className="m-4" asChild>
+                <Link to={{ pathname: "/nuevo/ausencias" }}>
+                  Crear nueva ausencia
+                </Link>
+              </Button>
             </div>
           )}
 
