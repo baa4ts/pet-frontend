@@ -31,6 +31,7 @@ import VentanaUsuario from "@/paginas/ventanas/VentanaUsuario";
 import HomePage from "../paginas/HomePage";
 import DashRecursos from "@/paginas/Administracion/dash/DashRecursos";
 import RecursosForm from "@/paginas/nuevos/RecursosForm";
+import { BACKEND_API } from "./CONF";
 
 export const AppRouter = createBrowserRouter([
   /**
@@ -265,4 +266,8 @@ export const AppRouter = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/debug",
+    element: <h1>{BACKEND_API}</h1>
+  }
 ]);
