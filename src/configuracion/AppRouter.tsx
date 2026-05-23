@@ -29,6 +29,9 @@ import VentanaNoticia from "@/paginas/ventanas/VentanaNoticia";
 import VentanaUsuario from "@/paginas/ventanas/VentanaUsuario";
 
 import HomePage from "../paginas/HomePage";
+import DashRecursos from "@/paginas/Administracion/dash/DashRecursos";
+import RecursosForm from "@/paginas/nuevos/RecursosForm";
+import { BACKEND_API } from "./CONF";
 
 export const AppRouter = createBrowserRouter([
   /**
@@ -36,6 +39,7 @@ export const AppRouter = createBrowserRouter([
    */
   {
     index: true,
+    loader: () => redirect("/tv"),
     element: <HomePage />,
   },
 
@@ -141,6 +145,12 @@ export const AppRouter = createBrowserRouter([
               ),
             element: <DashUsuarios />,
           },
+          {
+            path: "recursos",
+            loader: () =>
+              requierePermiso("recursos", "/dashboard/sin-permisos?seccion=recursos"),
+            element: <DashRecursos />,
+          }
         ],
       },
 
@@ -211,6 +221,12 @@ export const AppRouter = createBrowserRouter([
           requierePermiso("noticias", "/dashboard/sin-permisos?seccion=noticias"),
         element: <NoticiasForm />,
       },
+      {
+        path: "recursos",
+        loader: () =>
+          requierePermiso("recursos", "/dashboard/sin-permisos?seccion=recursos"),
+        element: <RecursosForm />,
+      },
 
       /**
        * Seccion para editar permisos
@@ -250,4 +266,8 @@ export const AppRouter = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/debug",
+    element: <h1>{BACKEND_API}</h1>
+  }
 ]);

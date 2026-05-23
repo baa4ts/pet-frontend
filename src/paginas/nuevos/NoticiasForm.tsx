@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { BACKEND_API } from "@/configuracion/CONF";
 
 type Imagen = { archivo: File; preview: string };
 
@@ -44,14 +45,14 @@ const NoticiasForm = () => {
 
       const ok = isEditing
         ? await actionActualizarNoticia(
-            Number(updateId),
-            value,
-            imagenes.map((i) => i.archivo),
-          )
+          Number(updateId),
+          value,
+          imagenes.map((i) => i.archivo),
+        )
         : await actionNuevaNoticia(
-            value,
-            imagenes.map((i) => i.archivo),
-          );
+          value,
+          imagenes.map((i) => i.archivo),
+        );
 
       if (ok) {
         toast.success(
@@ -133,7 +134,7 @@ const NoticiasForm = () => {
            */
           const filesExistentes = await Promise.all(
             noticia.recursos.map(async (r) => {
-              const url = `${import.meta.env.VITE_API_URL}/api/static/${r.url}`;
+              const url = `${BACKEND_API}/api/static/${r.url}`;
               const response = await fetch(url);
               const blob = await response.blob();
               return new File([blob], r.url, { type: blob.type });
@@ -274,10 +275,9 @@ const NoticiasForm = () => {
                   onDragLeave={() => setUi((prev) => ({ ...prev, dragging: false }))}
                   onDrop={handleDrop}
                   className={`flex flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed p-6 cursor-pointer transition-colors duration-200
-                    ${
-                      ui.dragging
-                        ? "border-primary bg-primary/5 text-primary"
-                        : "border-border hover:border-foreground/30 hover:bg-foreground/5 text-muted-foreground"
+                    ${ui.dragging
+                      ? "border-primary bg-primary/5 text-primary"
+                      : "border-border hover:border-foreground/30 hover:bg-foreground/5 text-muted-foreground"
                     }`}
                 >
                   <UploadSimple size={24} />

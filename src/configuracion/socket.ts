@@ -1,3 +1,4 @@
 import { io } from "socket.io-client";
+import { BACKEND_API } from "./CONF";
 
-export const socket = io(import.meta.env.VITE_API_URL || "http://localhost:3000");
+export const socket = io(BACKEND_API, { withCredentials: true });
