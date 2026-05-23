@@ -11,6 +11,8 @@ import LayoutFilters from "@/paginas/Administracion/LayoutFilters";
 import DashAusencias from "@/paginas/Administracion/dash/DashAusencias";
 import DashEventos from "@/paginas/Administracion/dash/DashEventos";
 import DashNoticias from "@/paginas/Administracion/dash/DashNoticias";
+import DashQueryAnalitica from "@/paginas/Administracion/dash/DashQueryAnalitica";
+import DashRecursos from "@/paginas/Administracion/dash/DashRecursos";
 import DashUsuarios from "@/paginas/Administracion/dash/DashUsuarios";
 import DashInicio from "@/paginas/Administracion/no-it/DashInicio";
 import DashNoPermisos from "@/paginas/Administracion/no-it/DashNoPermisos";
@@ -22,6 +24,7 @@ import AusenciasForm from "@/paginas/nuevos/AusenciasForm";
 import EventosForm from "@/paginas/nuevos/EventosForm";
 import NoticiasForm from "@/paginas/nuevos/NoticiasForm";
 import { PermisosForm } from "@/paginas/nuevos/PermisosForm";
+import RecursosForm from "@/paginas/nuevos/RecursosForm";
 import { SelectorUsuarios } from "@/paginas/selector/SelectorUsuarios";
 import VentanaAusencia from "@/paginas/ventanas/VentanaAusencia";
 import VentanaEvento from "@/paginas/ventanas/VentanaEvento";
@@ -29,8 +32,6 @@ import VentanaNoticia from "@/paginas/ventanas/VentanaNoticia";
 import VentanaUsuario from "@/paginas/ventanas/VentanaUsuario";
 
 import HomePage from "../paginas/HomePage";
-import DashRecursos from "@/paginas/Administracion/dash/DashRecursos";
-import RecursosForm from "@/paginas/nuevos/RecursosForm";
 import { BACKEND_API } from "./CONF";
 
 export const AppRouter = createBrowserRouter([
@@ -150,7 +151,13 @@ export const AppRouter = createBrowserRouter([
             loader: () =>
               requierePermiso("recursos", "/dashboard/sin-permisos?seccion=recursos"),
             element: <DashRecursos />,
-          }
+          },
+          {
+            path: "performance",
+            loader: () =>
+              requierePermiso("analitica", "/dashboard/sin-permisos?seccion=recursos"),
+            element: <DashQueryAnalitica />,
+          },
         ],
       },
 
@@ -268,6 +275,6 @@ export const AppRouter = createBrowserRouter([
   },
   {
     path: "/debug",
-    element: <h1>{BACKEND_API}</h1>
-  }
+    element: <h1>{BACKEND_API}</h1>,
+  },
 ]);

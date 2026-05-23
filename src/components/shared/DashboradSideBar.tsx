@@ -7,6 +7,7 @@ import {
   Image,
   Newspaper,
   Television,
+  TrendUpIcon,
   UserMinus,
   Users,
 } from "@phosphor-icons/react";
@@ -140,11 +141,8 @@ export function AppSidebar() {
                   Recursos
                 </SidebarMenuButton>
               </SidebarMenuItem>
-
             </SidebarMenu>
           </SidebarGroupContent>
-
-
         </SidebarGroup>
 
         <SidebarSeparator />
@@ -169,6 +167,24 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarSeparator />
+        <SidebarGroup>
+          <SidebarGroupLabel>Performance</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  disabled={!tieneTodos(["analitica"])}
+                  className={claseItem(["usuarios"])}
+                  onClick={() => navigate("/dashboard/performance")}
+                >
+                  <TrendUpIcon size={16} />
+                  Analitica - Query
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarSeparator />
 
         {/* Acciones rapidas */}
         <SidebarGroup>
@@ -181,13 +197,6 @@ export function AppSidebar() {
                   TV
                 </SidebarMenuButton>
               </SidebarMenuItem>
-
-              {/* <SidebarMenuItem>
-                                <SidebarMenuButton onClick={() => navigate("/perfil")}>
-                                    <UserCircle size={16} />
-                                    Perfil
-                                </SidebarMenuButton>
-                            </SidebarMenuItem> */}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

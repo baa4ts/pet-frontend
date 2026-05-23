@@ -7,9 +7,9 @@ import { getNoticiasTelevision } from "@/actions/tv/getNoticiasTelevision";
 import { getRecursosTelevision } from "@/actions/tv/getRecursosTelevision";
 import { AusenciasTelevision } from "@/components/television/AusenciasTelevision";
 import { EventosTelevision } from "@/components/television/EventosTelevision";
+import { BACKEND_API } from "@/configuracion/CONF";
 import { socket } from "@/configuracion/socket";
 import { formatearFecha } from "@/lib/formatearFecha";
-import { BACKEND_API } from "@/configuracion/CONF";
 
 // Type guards limpios
 const esNoticia = (i: Noticia | Recurso): i is Noticia => "titulo" in i;
@@ -51,8 +51,7 @@ const Televisor = () => {
   const item: Noticia | Recurso | undefined = items[actual];
 
   // Si el item actual es un video, el intervalo no avanza, espera el onEnded
-  const esVideo =
-    item && esRecurso(item) && item.tipo?.startsWith("video/");
+  const esVideo = item && esRecurso(item) && item.tipo?.startsWith("video/");
 
   const avanzar = useCallback(() => {
     setVisible(false);
@@ -102,7 +101,6 @@ const Televisor = () => {
     <section className="flex-1 h-screen flex flex-row bg-slate-950 p-2 gap-2">
       <article className="flex-7/10 flex flex-col">
         <div className="flex flex-1 rounded-lg overflow-hidden relative">
-
           {/* Error */}
           {isError && (
             <div className="w-full h-full flex items-center justify-center gap-2 bg-slate-900">
@@ -174,8 +172,9 @@ const Televisor = () => {
                     {noticias.map((_, i) => (
                       <div
                         key={i}
-                        className={`h-1 rounded-full transition-all duration-500 ${i === actual ? "bg-white w-4" : "bg-white/30 w-1"
-                          }`}
+                        className={`h-1 rounded-full transition-all duration-500 ${
+                          i === actual ? "bg-white w-4" : "bg-white/30 w-1"
+                        }`}
                       />
                     ))}
                   </div>
@@ -191,8 +190,9 @@ const Televisor = () => {
                   {recursos.map((_, i) => (
                     <div
                       key={i}
-                      className={`h-1 rounded-full transition-all duration-500 ${i === actual ? "bg-white w-4" : "bg-white/30 w-1"
-                        }`}
+                      className={`h-1 rounded-full transition-all duration-500 ${
+                        i === actual ? "bg-white w-4" : "bg-white/30 w-1"
+                      }`}
                     />
                   ))}
                 </div>

@@ -65,9 +65,7 @@ const DashNoticias = () => {
                 No hay noticias registradas.
               </p>
               <Button className="m-4" asChild>
-                <Link to={{ pathname: "/nuevo/noticias" }}>
-                  Crear una nueva noticia
-                </Link>
+                <Link to={{ pathname: "/nuevo/noticias" }}>Crear una nueva noticia</Link>
               </Button>
             </div>
           )}

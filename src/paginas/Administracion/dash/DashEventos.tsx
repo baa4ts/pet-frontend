@@ -63,9 +63,7 @@ const DashEventos = () => {
             <div className="flex flex-1 flex-col items-center justify-center p-8">
               <p className="text-sm text-muted-foreground">No hay eventos registrados.</p>
               <Button className="m-4" asChild>
-                <Link to={{ pathname: "/nuevo/eventos" }}>
-                  Crear nuevo evento
-                </Link>
+                <Link to={{ pathname: "/nuevo/eventos" }}>Crear nuevo evento</Link>
               </Button>
             </div>
           )}

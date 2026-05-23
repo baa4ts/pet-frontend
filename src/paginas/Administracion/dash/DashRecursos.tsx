@@ -15,35 +15,22 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { BACKEND_API } from "@/configuracion/CONF";
 import { useEliminar } from "@/hooks/actions-hooks/useEliminar";
 import { useRecursosHook } from "@/hooks/actions-hooks/useRecursosHook";
-import { BACKEND_API } from "@/configuracion/CONF";
 
-const STATIC = BACKEND_API + "/api/static/"
+const STATIC = BACKEND_API + "/api/static/";
 
 const MediaRecurso = ({ recurso }: { recurso: Recurso }) => {
-  const url = STATIC + recurso.url
-  const tipo = recurso.tipo ?? ""
+  const url = STATIC + recurso.url;
+  const tipo = recurso.tipo ?? "";
 
   if (tipo.startsWith("image/")) {
-    return (
-      <img
-        src={url}
-        alt={recurso.url}
-        className="w-full h-full object-cover"
-      />
-    )
+    return <img src={url} alt={recurso.url} className="w-full h-full object-cover" />;
   }
 
   if (tipo.startsWith("video/")) {
-    return (
-      <video
-        src={url}
-        className="w-full h-full object-cover"
-        muted
-        controls
-      />
-    )
+    return <video src={url} className="w-full h-full object-cover" muted controls />;
   }
 
   if (tipo === "application/pdf") {
@@ -54,7 +41,7 @@ const MediaRecurso = ({ recurso }: { recurso: Recurso }) => {
           {recurso.url}
         </span>
       </div>
-    )
+    );
   }
 
   return (
@@ -64,8 +51,8 @@ const MediaRecurso = ({ recurso }: { recurso: Recurso }) => {
         {recurso.url}
       </span>
     </div>
-  )
-}
+  );
+};
 
 const DashRecursos = () => {
   const { data, isError, isLoading, refetch } = useRecursosHook();
@@ -90,7 +77,6 @@ const DashRecursos = () => {
 
       <article className="flex-1 min-h-0">
         <div className="h-full flex flex-col overflow-y-auto">
-
           {/* Cargando */}
           {isLoading && (
             <div className="flex flex-1 items-center justify-center p-8">
@@ -159,7 +145,8 @@ const DashRecursos = () => {
                         <AlertDialogHeader>
                           <AlertDialogTitle>¿Estas seguro?</AlertDialogTitle>
                           <AlertDialogDescription>
-                            ¿Queres eliminar "{recurso.url}"? Esta accion no se puede deshacer.
+                            ¿Queres eliminar "{recurso.url}"? Esta accion no se puede
+                            deshacer.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -173,13 +160,11 @@ const DashRecursos = () => {
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
-
                   </div>
                 ))}
               </div>
             </section>
           )}
-
         </div>
       </article>
 

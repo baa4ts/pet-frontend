@@ -45,14 +45,14 @@ const NoticiasForm = () => {
 
       const ok = isEditing
         ? await actionActualizarNoticia(
-          Number(updateId),
-          value,
-          imagenes.map((i) => i.archivo),
-        )
+            Number(updateId),
+            value,
+            imagenes.map((i) => i.archivo),
+          )
         : await actionNuevaNoticia(
-          value,
-          imagenes.map((i) => i.archivo),
-        );
+            value,
+            imagenes.map((i) => i.archivo),
+          );
 
       if (ok) {
         toast.success(
@@ -275,9 +275,10 @@ const NoticiasForm = () => {
                   onDragLeave={() => setUi((prev) => ({ ...prev, dragging: false }))}
                   onDrop={handleDrop}
                   className={`flex flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed p-6 cursor-pointer transition-colors duration-200
-                    ${ui.dragging
-                      ? "border-primary bg-primary/5 text-primary"
-                      : "border-border hover:border-foreground/30 hover:bg-foreground/5 text-muted-foreground"
+                    ${
+                      ui.dragging
+                        ? "border-primary bg-primary/5 text-primary"
+                        : "border-border hover:border-foreground/30 hover:bg-foreground/5 text-muted-foreground"
                     }`}
                 >
                   <UploadSimple size={24} />

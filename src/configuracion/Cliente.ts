@@ -1,5 +1,6 @@
 import { adminClient, inferAdditionalFields } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
+
 import { BACKEND_API } from "./CONF";
 
 const Cliente = createAuthClient({

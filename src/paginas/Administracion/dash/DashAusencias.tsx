@@ -66,9 +66,7 @@ const DashAusencias = () => {
                 No hay ausencias registradas.
               </p>
               <Button className="m-4" asChild>
-                <Link to={{ pathname: "/nuevo/ausencias" }}>
-                  Crear nueva ausencia
-                </Link>
+                <Link to={{ pathname: "/nuevo/ausencias" }}>Crear nueva ausencia</Link>
               </Button>
             </div>
           )}
