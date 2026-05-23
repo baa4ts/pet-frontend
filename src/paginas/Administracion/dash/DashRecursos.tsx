@@ -17,8 +17,9 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useEliminar } from "@/hooks/actions-hooks/useEliminar";
 import { useRecursosHook } from "@/hooks/actions-hooks/useRecursosHook";
+import { BACKEND_API } from "@/configuracion/CONF";
 
-const STATIC = "http://localhost:3000/api/static/"
+const STATIC = BACKEND_API + "/api/static/"
 
 const MediaRecurso = ({ recurso }: { recurso: Recurso }) => {
   const url = STATIC + recurso.url

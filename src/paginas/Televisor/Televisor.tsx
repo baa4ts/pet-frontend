@@ -9,6 +9,7 @@ import { AusenciasTelevision } from "@/components/television/AusenciasTelevision
 import { EventosTelevision } from "@/components/television/EventosTelevision";
 import { socket } from "@/configuracion/socket";
 import { formatearFecha } from "@/lib/formatearFecha";
+import { BACKEND_API } from "@/configuracion/CONF";
 
 // Type guards limpios
 const esNoticia = (i: Noticia | Recurso): i is Noticia => "titulo" in i;
@@ -126,7 +127,7 @@ const Televisor = () => {
                 <video
                   ref={videoRef}
                   className="w-full h-full object-cover"
-                  src={`http://localhost:3000/api/static/` + (item as Recurso).url}
+                  src={`${BACKEND_API}/api/static/` + (item as Recurso).url}
                   autoPlay
                   muted
                   onEnded={avanzar}
@@ -137,8 +138,8 @@ const Televisor = () => {
                   className="w-full h-full object-cover"
                   src={
                     esNoticia(item)
-                      ? `http://localhost:3000/api/static/` + item.recursos[0]?.url
-                      : `http://localhost:3000/api/static/` + (item as Recurso).url
+                      ? `${BACKEND_API}/api/static/` + item.recursos[0]?.url
+                      : `${BACKEND_API}/api/static/` + (item as Recurso).url
                   }
                   alt={esNoticia(item) ? item.titulo : ""}
                   style={{ opacity: visible ? 1 : 0, transition: "opacity 400ms" }}

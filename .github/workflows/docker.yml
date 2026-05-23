@@ -2,7 +2,7 @@ name: Docker Frontend
 
 on:
   push:
-    branches: [docker]
+    branches: [beta-4]
 
 jobs:
   build:
