@@ -1,8 +1,9 @@
+import { useEffect } from "react";
 import { useSearchParams } from "react-router";
-
 import { useQuery } from "@tanstack/react-query";
 
 import { getAusenciasDash } from "@/actions/dashboard/getAusenciasDash";
+import { socket } from "@/configuracion/socket";
 
 export const useAusenciasHook = () => {
   const [searchParams] = useSearchParams();
@@ -14,10 +15,20 @@ export const useAusenciasHook = () => {
 
   const offset = (page - 1) * limit;
 
-  return useQuery({
+  const query = useQuery({
     queryKey: ["ausencias", { page, limit, order, full }],
     queryFn: () => getAusenciasDash({ limit, offset, order, full }),
     staleTime: 10_000,
     refetchInterval: 10_000,
+    refetchOnReconnect: true,
   });
+
+  useEffect(() => {
+    socket.on("ausencias", () => query.refetch());
+    return () => {
+      socket.off("ausencias");
+    };
+  }, [query.refetch]);
+
+  return query;
 };

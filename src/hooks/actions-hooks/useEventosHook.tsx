@@ -1,8 +1,9 @@
+import { useEffect } from "react";
 import { useSearchParams } from "react-router";
-
 import { useQuery } from "@tanstack/react-query";
 
 import { getEventosDash } from "@/actions/dashboard/getEventosDash";
+import { socket } from "@/configuracion/socket";
 
 export const useEventosHook = () => {
   const [searchParams] = useSearchParams();
@@ -14,10 +15,19 @@ export const useEventosHook = () => {
 
   const offset = (page - 1) * limit;
 
-  return useQuery({
+  const query = useQuery({
     queryKey: ["eventos", { page, limit, order, full }],
     queryFn: () => getEventosDash({ limit, offset, order, full }),
     staleTime: 10_000,
     refetchInterval: 10_000,
   });
+
+  useEffect(() => {
+    socket.on("eventos", () => query.refetch());
+    return () => {
+      socket.off("eventos");
+    };
+  }, [query.refetch]);
+
+  return query;
 };

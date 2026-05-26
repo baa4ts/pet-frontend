@@ -1,8 +1,9 @@
+import { useEffect } from "react";
 import { useSearchParams } from "react-router";
-
 import { useQuery } from "@tanstack/react-query";
 
 import { getNoticiasDash } from "@/actions/dashboard/getNoticiasDash";
+import { socket } from "@/configuracion/socket";
 
 export const useNoticiasHook = () => {
   const [searchParams] = useSearchParams();
@@ -14,10 +15,19 @@ export const useNoticiasHook = () => {
 
   const offset = (page - 1) * limit;
 
-  return useQuery({
+  const query = useQuery({
     queryKey: ["noticias", { page, limit, order, full }],
     queryFn: () => getNoticiasDash({ limit, offset, order, full }),
     staleTime: 10_000,
     refetchInterval: 10_000,
   });
+
+  useEffect(() => {
+    socket.on("noticias", () => query.refetch());
+    return () => {
+      socket.off("noticias");
+    };
+  }, [query.refetch]);
+
+  return query;
 };

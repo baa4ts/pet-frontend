@@ -1,8 +1,9 @@
+import { useEffect } from "react";
 import { useSearchParams } from "react-router";
-
 import { useQuery } from "@tanstack/react-query";
 
 import { getUsuariosDash } from "@/actions/dashboard/getUsuariosDash";
+import { socket } from "@/configuracion/socket";
 
 export const useUsuariosHook = () => {
   const [searchParams] = useSearchParams();
@@ -15,10 +16,19 @@ export const useUsuariosHook = () => {
 
   const offset = (page - 1) * limit;
 
-  return useQuery({
+  const resultado = useQuery({
     queryKey: ["usuarios", { page, limit, order, full, query }],
     queryFn: () => getUsuariosDash({ limit, offset, order, full, query }),
     staleTime: 10_000,
     refetchInterval: 10_000,
   });
+
+  useEffect(() => {
+    socket.on("usuarios", () => resultado.refetch());
+    return () => {
+      socket.off("usuarios");
+    };
+  }, [resultado.refetch]);
+
+  return resultado;
 };
