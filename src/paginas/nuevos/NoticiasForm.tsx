@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 
-import { CaretDown, Image, UploadSimple, X } from "@phosphor-icons/react";
+import { CaretDown, File, UploadSimple, X } from "@phosphor-icons/react";
 import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 
@@ -19,7 +19,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { BACKEND_API } from "@/configuracion/CONF";
 
-type Imagen = { archivo: File; preview: string };
+type ArchivoItem = { archivo: globalThis.File; preview: string; esVideo: boolean };
+
+const FORMATOS_VALIDOS = [".jpg", ".jpeg", ".png", ".webp", ".mp4", ".webm", ".mov"];
+const FORMATOS_VIDEO = [".mp4", ".webm", ".mov"];
 
 const NoticiasForm = () => {
   const navigate = useNavigate();
@@ -29,7 +32,7 @@ const NoticiasForm = () => {
   const [cargando, setCargando] = useState(isEditing);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const [imagenes, setImagenes] = useState<Imagen[]>([]);
+  const [archivos, setArchivos] = useState<ArchivoItem[]>([]);
   const [ui, setUi] = useState({ open: false, dragging: false });
 
   const form = useForm({
@@ -47,11 +50,11 @@ const NoticiasForm = () => {
         ? await actionActualizarNoticia(
             Number(updateId),
             value,
-            imagenes.map((i) => i.archivo),
+            archivos.map((a) => a.archivo),
           )
         : await actionNuevaNoticia(
             value,
-            imagenes.map((i) => i.archivo),
+            archivos.map((a) => a.archivo),
           );
 
       if (ok) {
@@ -73,21 +76,18 @@ const NoticiasForm = () => {
     },
   });
 
-  /**
-   *
-   * Helpers para la parte de las imagenes
-   *
-   */
-  const agregarArchivos = (nuevos: File[]) => {
+  const agregarArchivos = (nuevos: globalThis.File[]) => {
     const validos = nuevos.filter((f) =>
-      [".jpg", ".jpeg", ".png", ".webp"].some((ext) =>
-        f.name.toLowerCase().endsWith(ext),
-      ),
+      FORMATOS_VALIDOS.some((ext) => f.name.toLowerCase().endsWith(ext)),
     );
-    setImagenes((prev) =>
+    setArchivos((prev) =>
       [
         ...prev,
-        ...validos.map((f) => ({ archivo: f, preview: URL.createObjectURL(f) })),
+        ...validos.map((f) => ({
+          archivo: f,
+          preview: URL.createObjectURL(f),
+          esVideo: FORMATOS_VIDEO.some((ext) => f.name.toLowerCase().endsWith(ext)),
+        })),
       ].slice(0, 5),
     );
   };
@@ -104,8 +104,8 @@ const NoticiasForm = () => {
   };
 
   const quitarArchivo = (index: number) => {
-    URL.revokeObjectURL(imagenes[index].preview);
-    setImagenes((prev) => prev.filter((_, i) => i !== index));
+    URL.revokeObjectURL(archivos[index].preview);
+    setArchivos((prev) => prev.filter((_, i) => i !== index));
   };
 
   /**
@@ -137,12 +137,16 @@ const NoticiasForm = () => {
               const url = `${BACKEND_API}/api/static/${r.url}`;
               const response = await fetch(url);
               const blob = await response.blob();
-              return new File([blob], r.url, { type: blob.type });
+              return new globalThis.File([blob], r.url, { type: blob.type });
             }),
           );
 
-          setImagenes(
-            filesExistentes.map((f) => ({ archivo: f, preview: URL.createObjectURL(f) })),
+          setArchivos(
+            filesExistentes.map((f) => ({
+              archivo: f,
+              preview: URL.createObjectURL(f),
+              esVideo: FORMATOS_VIDEO.some((ext) => f.name.toLowerCase().endsWith(ext)),
+            })),
           );
           setUi((prev) => ({ ...prev, open: true }));
         }
@@ -182,7 +186,6 @@ const NoticiasForm = () => {
           {isEditing ? "Editar noticia" : "Crear una nueva noticia"}
         </h1>
 
-        {/* Titulo de la noticia */}
         <form.Field
           name="titulo"
           validators={{
@@ -206,7 +209,6 @@ const NoticiasForm = () => {
           )}
         </form.Field>
 
-        {/* Descripcion de la noticia */}
         <form.Field
           name="descripcion"
           validators={{
@@ -231,7 +233,6 @@ const NoticiasForm = () => {
           )}
         </form.Field>
 
-        {/* Seccion de las imagenes */}
         <Collapsible
           open={ui.open}
           onOpenChange={(v) => setUi((prev) => ({ ...prev, open: v }))}
@@ -239,11 +240,11 @@ const NoticiasForm = () => {
           <CollapsibleTrigger asChild>
             <Button type="button" variant="outline" className="w-full justify-between">
               <span className="flex items-center gap-2">
-                <Image size={16} />
-                Imagenes
-                {imagenes.length > 0 && (
+                <File size={16} />
+                Archivos
+                {archivos.length > 0 && (
                   <span className="text-xs text-muted-foreground">
-                    ({imagenes.length}/5)
+                    ({archivos.length}/5)
                   </span>
                 )}
               </span>
@@ -254,14 +255,13 @@ const NoticiasForm = () => {
             </Button>
           </CollapsibleTrigger>
 
-          {/* Seccion de las imagenes */}
           <CollapsibleContent className="flex flex-col gap-2 mt-2">
-            {imagenes.length < 5 && (
+            {archivos.length < 5 && (
               <>
                 <input
                   ref={inputRef}
                   type="file"
-                  accept=".jpg,.jpeg,.png,.webp"
+                  accept=".jpg,.jpeg,.png,.webp,.mp4,.webm,.mov"
                   multiple
                   className="hidden"
                   onChange={handleArchivos}
@@ -283,26 +283,34 @@ const NoticiasForm = () => {
                 >
                   <UploadSimple size={24} />
                   <p className="text-sm">
-                    Arrastra imagenes o <span className="underline">selecciona</span>
+                    Arrastra archivos o <span className="underline">selecciona</span>
                   </p>
-                  <p className="text-xs">JPG, PNG, WEBP — max. 5</p>
+                  <p className="text-xs">JPG, PNG, WEBP, MP4, WEBM, MOV — max. 5</p>
                 </div>
               </>
             )}
 
-            {/* Preview de las imagenes */}
-            {imagenes.length > 0 && (
+            {archivos.length > 0 && (
               <div className="grid grid-cols-3 gap-2">
-                {imagenes.map((img, i) => (
+                {archivos.map((item, i) => (
                   <div
                     key={i}
                     className="relative group aspect-square rounded-md overflow-hidden border border-border"
                   >
-                    <img
-                      src={img.preview}
-                      alt={`imagen-${i}`}
-                      className="w-full h-full object-cover"
-                    />
+                    {item.esVideo ? (
+                      <video
+                        src={item.preview}
+                        className="w-full h-full object-cover"
+                        muted
+                        playsInline
+                      />
+                    ) : (
+                      <img
+                        src={item.preview}
+                        alt={`archivo-${i}`}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
                     <button
                       type="button"
                       onClick={() => quitarArchivo(i)}

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router";
+
 import { useQuery } from "@tanstack/react-query";
 
 import { getNoticiasDash } from "@/actions/dashboard/getNoticiasDash";

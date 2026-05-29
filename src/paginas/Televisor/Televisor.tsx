@@ -11,7 +11,6 @@ import { BACKEND_API } from "@/configuracion/CONF";
 import { socket } from "@/configuracion/socket";
 import { formatearFecha } from "@/lib/formatearFecha";
 
-// Type guards limpios
 const esNoticia = (i: Noticia | Recurso): i is Noticia => "titulo" in i;
 const esRecurso = (i: Noticia | Recurso): i is Recurso => !("titulo" in i);
 
@@ -50,8 +49,15 @@ const Televisor = () => {
 
   const item: Noticia | Recurso | undefined = items[actual];
 
-  // Si el item actual es un video, el intervalo no avanza, espera el onEnded
-  const esVideo = item && esRecurso(item) && item.tipo?.startsWith("video/");
+  const esVideo =
+    (item && esRecurso(item) && item.tipo?.startsWith("video/")) ||
+    (item && esNoticia(item) && item.recursos[0]?.tipo?.startsWith("video/"));
+
+  const src = item
+    ? esNoticia(item)
+      ? `${BACKEND_API}/api/static/` + item.recursos[0]?.url
+      : `${BACKEND_API}/api/static/` + (item as Recurso).url
+    : "";
 
   const avanzar = useCallback(() => {
     setVisible(false);
@@ -62,7 +68,6 @@ const Televisor = () => {
     }, 400);
   }, [items.length]);
 
-  // Intervalo solo cuando NO es video
   useEffect(() => {
     if (items.length === 0 || esVideo) return;
     const interval = setInterval(avanzar, 8000);
@@ -89,7 +94,6 @@ const Televisor = () => {
     };
   }, [refetchRecursos]);
 
-  // Cuando cambia el item a video, lo reproduce desde el inicio
   useEffect(() => {
     if (esVideo && videoRef.current) {
       videoRef.current.currentTime = 0;
@@ -120,12 +124,11 @@ const Televisor = () => {
           {/* Con items */}
           {!isError && item && (
             <>
-              {/* Video */}
               {esVideo ? (
                 <video
                   ref={videoRef}
                   className="w-full h-full object-cover"
-                  src={`${BACKEND_API}/api/static/` + (item as Recurso).url}
+                  src={src}
                   autoPlay
                   muted
                   onEnded={avanzar}
@@ -134,11 +137,7 @@ const Televisor = () => {
               ) : (
                 <img
                   className="w-full h-full object-cover"
-                  src={
-                    esNoticia(item)
-                      ? `${BACKEND_API}/api/static/` + item.recursos[0]?.url
-                      : `${BACKEND_API}/api/static/` + (item as Recurso).url
-                  }
+                  src={src}
                   alt={esNoticia(item) ? item.titulo : ""}
                   style={{ opacity: visible ? 1 : 0, transition: "opacity 400ms" }}
                 />
