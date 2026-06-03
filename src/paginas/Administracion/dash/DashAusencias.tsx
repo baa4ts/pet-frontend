@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 
-import { PencilSimple, WarningCircle } from "@phosphor-icons/react";
+import { FilePdfIcon, PencilSimple, WarningCircle } from "@phosphor-icons/react";
 
 import { AgregarAlgo } from "@/components/dashboard/AgregarAlgo";
 import { EliminarAlgo } from "@/components/dashboard/EliminarAlgo";
@@ -88,6 +88,17 @@ const DashAusencias = () => {
                     {ausencia.docente.name}
                   </span>
                   <div className="flex items-center gap-1">
+                    {/* Editar */}
+                    <Button variant="ghost" size="icon" asChild>
+                      <Link
+                        to={`/pdf/ausencias/${ausencia.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FilePdfIcon className="h-4 w-4" />
+                      </Link>
+                    </Button>
+
                     <BotonVentana url={`/ventanas/ausencia/${ausencia.id}`} />
 
                     {/* Editar */}
