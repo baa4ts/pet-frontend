@@ -37,7 +37,7 @@ export const AusenciasTelevision = () => {
   return (
     <div className="flex-1 bg-white rounded-lg flex flex-col overflow-hidden">
       <div className="text-lg font-semibold py-2 px-3 border-b border-gray-200 shrink-0">
-        Ausencias
+        Examenes
       </div>
       <div className="flex-1 min-h-0 overflow-hidden relative">
         {isError && (

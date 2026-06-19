@@ -8,7 +8,7 @@ import {
 } from "@/loaders/ClienteLoader";
 import LayoutDashboard from "@/paginas/Administracion/LayoutDashboard";
 import LayoutFilters from "@/paginas/Administracion/LayoutFilters";
-import DashAusencias from "@/paginas/Administracion/dash/DashAusencias";
+import DashExamenes from "@/paginas/Administracion/dash/DashExamenes";
 import DashEventos from "@/paginas/Administracion/dash/DashEventos";
 import DashNoticias from "@/paginas/Administracion/dash/DashNoticias";
 import DashQueryAnalitica from "@/paginas/Administracion/dash/DashQueryAnalitica";
@@ -20,7 +20,7 @@ import LoginPage from "@/paginas/Autenticacion/LoginPage";
 import RegisterPage from "@/paginas/Autenticacion/RegisterPage";
 import Perfil from "@/paginas/Perfil/Perfil";
 import Televisor from "@/paginas/Televisor/Televisor";
-import AusenciasForm from "@/paginas/nuevos/AusenciasForm";
+import ExamenesForm from "@/paginas/nuevos/ExamenesForm";
 import EventosForm from "@/paginas/nuevos/EventosForm";
 import NoticiasForm from "@/paginas/nuevos/NoticiasForm";
 import { PermisosForm } from "@/paginas/nuevos/PermisosForm";
@@ -127,10 +127,10 @@ export const AppRouter = createBrowserRouter([
             element: <DashNoticias />,
           },
           {
-            path: "ausencias",
+            path: "examenes",
             loader: () =>
-              requierePermiso("ausencias", "/dashboard/sin-permisos?seccion=ausencias"),
-            element: <DashAusencias />,
+              requierePermiso("examenes", "/dashboard/sin-permisos?seccion=examenes"),
+            element: <DashExamenes />,
           },
           {
             path: "eventos",
@@ -179,9 +179,9 @@ export const AppRouter = createBrowserRouter([
     loader: requiereSession,
     children: [
       {
-        path: "ausencia/:id",
+        path: "examen/:id",
         loader: () =>
-          requierePermiso("ausencias", "/dashboard/sin-permisos?seccion=ausencias"),
+          requierePermiso("examenes", "/dashboard/sin-permisos?seccion=examenes"),
         element: <VentanaAusencia />,
       },
       {
@@ -218,10 +218,10 @@ export const AppRouter = createBrowserRouter([
         element: <EventosForm />,
       },
       {
-        path: "ausencias",
+        path: "examenes",
         loader: () =>
-          requierePermiso("ausencias", "/dashboard/sin-permisos?seccion=ausencias"),
-        element: <AusenciasForm />,
+          requierePermiso("examenes", "/dashboard/sin-permisos?seccion=examenes"),
+        element: <ExamenesForm />,
       },
       {
         path: "noticias",
@@ -279,9 +279,9 @@ export const AppRouter = createBrowserRouter([
     loader: requiereSession,
     children: [
       {
-        path: "ausencias/:id",
+        path: "examenes/:id",
         loader: () =>
-          requierePermiso("ausencias", "/dashboard/sin-permisos?seccion=ausencias"),
+          requierePermiso("examenes", "/dashboard/sin-permisos?seccion=examenes"),
         element: <AusenciaPDFPage />,
       },
     ],
