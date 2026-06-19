@@ -8,22 +8,22 @@ import BotonVentana from "@/components/shared/BotonVentana";
 import { Pagination } from "@/components/shared/Pagination";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { useAusenciasHook } from "@/hooks/actions-hooks/useAusenciasHook";
+import { useExamenesHook } from "@/hooks/actions-hooks/useExamenesHook";
 import { useEliminar } from "@/hooks/actions-hooks/useEliminar";
 
 const DashAusencias = () => {
-  const { data, isError, isLoading, refetch } = useAusenciasHook();
+  const { data, isError, isLoading, refetch } = useExamenesHook();
 
-  const { eliminar } = useEliminar({
-    url: "ausencias",
+    const { eliminar } = useEliminar({
+    url: "examenes",
     refetch,
     mensajes: {
-      loading: (materia) => `Eliminando ausencia de ${materia}...`,
-      success: (materia) => `Ausencia de ${materia} eliminada correctamente`,
-      error: (materia) => `Error al eliminar la ausencia de ${materia}`,
+      loading: (materia) => `Eliminando examen de ${materia}...`,
+      success: (materia) => `Examen de ${materia} eliminado correctamente`,
+      error: (materia) => `Error al eliminar el examen de ${materia}`,
     },
     redireccion: {
-      forbidden: "/sin-permisos?seccion=ausencias",
+      forbidden: "/sin-permisos?seccion=examenes",
     },
   });
 
@@ -65,8 +65,8 @@ const DashAusencias = () => {
               <p className="text-sm text-muted-foreground">
                 No hay ausencias registradas.
               </p>
-              <Button className="m-4" asChild>
-                <Link to={{ pathname: "/nuevo/ausencias" }}>Crear nueva ausencia</Link>
+                <Button className="m-4" asChild>
+                <Link to={{ pathname: "/nuevo/examenes" }}>Crear nuevo examen</Link>
               </Button>
             </div>
           )}
@@ -75,7 +75,7 @@ const DashAusencias = () => {
           {!isLoading && !isError && data?.data && data.data.length > 0 && (
             <section className="flex flex-col divide-y divide-border p-5">
               {/* Componente para redigir a la seccion de crear */}
-              <AgregarAlgo url="/nuevo/ausencias" />
+              <AgregarAlgo url="/nuevo/examenes" />
 
               {data.data.map((ausencia) => (
                 <article key={ausencia.id} className="flex items-center gap-3 py-3">
@@ -91,7 +91,7 @@ const DashAusencias = () => {
                     {/* Editar */}
                     <Button variant="ghost" size="icon" asChild>
                       <Link
-                        to={`/pdf/ausencias/${ausencia.id}`}
+                        to={`/pdf/examenes/${ausencia.id}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -99,13 +99,13 @@ const DashAusencias = () => {
                       </Link>
                     </Button>
 
-                    <BotonVentana url={`/ventanas/ausencia/${ausencia.id}`} />
+                      <BotonVentana url={`/ventanas/examen/${ausencia.id}`} />
 
                     {/* Editar */}
                     <Button variant="ghost" size="icon" asChild>
                       <Link
                         to={{
-                          pathname: "/nuevo/ausencias",
+                          pathname: "/nuevo/examenes",
                           search: `?update=${ausencia.id}`,
                         }}
                       >
@@ -118,7 +118,7 @@ const DashAusencias = () => {
                       variant="ghost"
                       confirmVariant="destructive"
                       confirmLabel="Eliminar"
-                      descripcion={`¿Estas seguro de que queres eliminar la ausencia de ${ausencia.materia}?`}
+                      descripcion={`¿Estas seguro de que queres eliminar el examen de ${ausencia.materia}?`}
                       onConfirm={() => eliminar(ausencia.id, ausencia.materia)}
                     />
                   </div>

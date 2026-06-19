@@ -111,12 +111,12 @@ export function AppSidebar() {
 
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  disabled={!tieneAlguno(["ausencias"])}
-                  className={claseItem(["ausencias"])}
-                  onClick={() => navigate("/dashboard/ausencias")}
+                  disabled={!tieneAlguno(["examenes"])}
+                  className={claseItem(["examenes"])}
+                  onClick={() => navigate("/dashboard/examenes")}
                 >
                   <UserMinus size={16} />
-                  Ausencias
+                  Examenes
                 </SidebarMenuButton>
               </SidebarMenuItem>
 

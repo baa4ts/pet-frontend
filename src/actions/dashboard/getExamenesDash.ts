@@ -7,7 +7,7 @@ interface Params {
   full?: string;
 }
 
-export const getAusenciasDash = async (
+export const getExamenesDash = async (
   params?: Params,
 ): Promise<ServerResponse<Ausencia>> => {
   const { data } = await api.get<ServerResponse<Ausencia>>("/examenes", { params });

@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { getNoticiasTelevision } from "@/actions/tv/getNoticiasTelevision";
 import { getRecursosTelevision } from "@/actions/tv/getRecursosTelevision";
-import { AusenciasTelevision } from "@/components/television/AusenciasTelevision";
+import { ExamenesTelevision } from "@/components/television/ExamenesTelevision";
 import { EventosTelevision } from "@/components/television/EventosTelevision";
 import { BACKEND_API } from "@/configuracion/CONF";
 import { socket } from "@/configuracion/socket";
@@ -203,7 +203,7 @@ const Televisor = () => {
 
       {/* Columna derecha */}
       <article className="flex-3/10 flex flex-col gap-2">
-        <AusenciasTelevision />
+        <ExamenesTelevision />
         <EventosTelevision />
       </article>
     </section>
