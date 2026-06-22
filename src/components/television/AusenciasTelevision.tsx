@@ -37,13 +37,13 @@ export const AusenciasTelevision = () => {
   return (
     <div className="flex-1 bg-white rounded-lg flex flex-col overflow-hidden">
       <div className="text-lg font-semibold py-2 px-3 border-b border-gray-200 shrink-0">
-        Ausencias
+        Examenes
       </div>
       <div className="flex-1 min-h-0 overflow-hidden relative">
         {isError && (
           <div className="w-full h-full flex items-center justify-center gap-2">
             <WifiSlash className="text-red-400" size={18} />
-            <p className="text-sm text-red-400">Error al cargar ausencias</p>
+            <p className="text-sm text-red-400">Error al cargar los examenes</p>
           </div>
         )}
 

@@ -15,7 +15,7 @@ const DashAusencias = () => {
   const { data, isError, isLoading, refetch } = useAusenciasHook();
 
   const { eliminar } = useEliminar({
-    url: "ausencias",
+    url: "examenes",
     refetch,
     mensajes: {
       loading: (materia) => `Eliminando ausencia de ${materia}...`,
@@ -23,7 +23,7 @@ const DashAusencias = () => {
       error: (materia) => `Error al eliminar la ausencia de ${materia}`,
     },
     redireccion: {
-      forbidden: "/sin-permisos?seccion=ausencias",
+      forbidden: "/sin-permisos?seccion=examenes",
     },
   });
 
@@ -63,10 +63,10 @@ const DashAusencias = () => {
           {!isLoading && !isError && data?.data.length === 0 && (
             <div className="flex flex-1 flex-col items-center justify-center p-8">
               <p className="text-sm text-muted-foreground">
-                No hay ausencias registradas.
+                No hay examenes.
               </p>
               <Button className="m-4" asChild>
-                <Link to={{ pathname: "/nuevo/ausencias" }}>Crear nueva ausencia</Link>
+                <Link to={{ pathname: "/nuevo/examenes" }}>Crear un nuevo examene</Link>
               </Button>
             </div>
           )}
@@ -75,7 +75,7 @@ const DashAusencias = () => {
           {!isLoading && !isError && data?.data && data.data.length > 0 && (
             <section className="flex flex-col divide-y divide-border p-5">
               {/* Componente para redigir a la seccion de crear */}
-              <AgregarAlgo url="/nuevo/ausencias" />
+              <AgregarAlgo url="/nuevo/examenes" />
 
               {data.data.map((ausencia) => (
                 <article key={ausencia.id} className="flex items-center gap-3 py-3">
@@ -88,24 +88,13 @@ const DashAusencias = () => {
                     {ausencia.docente.name}
                   </span>
                   <div className="flex items-center gap-1">
-                    {/* Editar */}
-                    <Button variant="ghost" size="icon" asChild>
-                      <Link
-                        to={`/pdf/ausencias/${ausencia.id}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <FilePdfIcon className="h-4 w-4" />
-                      </Link>
-                    </Button>
-
-                    <BotonVentana url={`/ventanas/ausencia/${ausencia.id}`} />
+                    <BotonVentana url={`/ventanas/examenes/${ausencia.id}`} />
 
                     {/* Editar */}
                     <Button variant="ghost" size="icon" asChild>
                       <Link
                         to={{
-                          pathname: "/nuevo/ausencias",
+                          pathname: "/nuevo/examenes",
                           search: `?update=${ausencia.id}`,
                         }}
                       >

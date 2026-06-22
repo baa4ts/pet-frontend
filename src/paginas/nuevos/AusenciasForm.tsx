@@ -30,8 +30,8 @@ const AusenciasForm = () => {
     onSubmit: async ({ value }) => {
       const toastId = toast.loading(
         isEditing
-          ? `Actualizando ausencia de "${value.materia}"...`
-          : `Creando ausencia de "${value.materia}"...`,
+          ? `Actualizando examen  "${value.materia}"...`
+          : `Creando examen de "${value.materia}"...`,
         { position: "top-center" },
       );
 
@@ -42,16 +42,16 @@ const AusenciasForm = () => {
       if (ok) {
         toast.success(
           isEditing
-            ? `Ausencia de "${value.materia}" actualizada correctamente`
-            : `Ausencia de "${value.materia}" creada correctamente`,
+            ? `Examen "${value.materia}" actualizada correctamente`
+            : `Examen "${value.materia}" creada correctamente`,
           { id: toastId, position: "top-center" },
         );
-        setTimeout(() => navigate("/dashboard/ausencias", { replace: true }), 500);
+        setTimeout(() => navigate("/dashboard/examenes", { replace: true }), 500);
       } else {
         toast.error(
           isEditing
-            ? `Error al actualizar la ausencia de "${value.materia}"`
-            : `Error al crear la ausencia de "${value.materia}"`,
+            ? `Error al actualizar el examen de"${value.materia}"`
+            : `Error al crear el examen de"${value.materia}"`,
           { id: toastId, position: "top-center" },
         );
       }
@@ -98,10 +98,10 @@ const AusenciasForm = () => {
          * Si no se pudo obtener la ausencia a editar. redireccion a nueva
          *
          */
-        toast.warning("No se encontro la ausencia, creando una nueva", {
+        toast.warning("No se encontro el examen, creando una nueva", {
           position: "top-center",
         });
-        navigate("/nuevo/ausencias", { replace: true });
+        navigate("/nuevo/examenes", { replace: true });
       })
       .finally(() => setCargando(false));
   }, [updateId]);
@@ -124,7 +124,7 @@ const AusenciasForm = () => {
         className="flex flex-col gap-4 w-full max-w-md"
       >
         <h1 className="text-2xl">
-          {isEditing ? "Editar ausencia" : "Crear una nueva ausencia"}
+          {isEditing ? "Editar examen" : "Crear un nuevo examen"}
         </h1>
 
         {/* Materia */}
@@ -212,7 +212,7 @@ const AusenciasForm = () => {
         <form.Subscribe selector={(s) => s.canSubmit}>
           {(canSubmit) => (
             <Button type="submit" disabled={!canSubmit}>
-              {isEditing ? "Guardar cambios" : "Crear ausencia"}
+              {isEditing ? "Guardar cambios" : "Crear examen"}
             </Button>
           )}
         </form.Subscribe>

@@ -31,7 +31,7 @@ const VentanaAusencia = () => {
     <div className="flex flex-col gap-4 p-6 h-screen">
       <div className="flex flex-col gap-0.5">
         <span className="text-xs font-semibold uppercase tracking-widest text-blue-500">
-          Ausencia
+          Examen
         </span>
         <h1 className="text-2xl font-bold">{ausencia.materia}</h1>
         <p className="text-sm text-muted-foreground">{formatearFecha(ausencia.fecha)}</p>
