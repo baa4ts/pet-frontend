@@ -10,6 +10,6 @@ interface Params {
 export const getAusenciasDash = async (
   params?: Params,
 ): Promise<ServerResponse<Ausencia>> => {
-  const { data } = await api.get<ServerResponse<Ausencia>>("/ausencias", { params });
+  const { data } = await api.get<ServerResponse<Ausencia>>("/examenes", { params });
   return data;
 };

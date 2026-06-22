@@ -11,7 +11,7 @@ export const actionActualizarAusencia = async (
   value: E,
 ): Promise<boolean> => {
   try {
-    await api.put(`/ausencias/${id}`, {
+    await api.put(`/examenes/${id}`, {
       materia: value.materia,
       fecha: new Date(value.fecha).toISOString(),
       docenteId: value.docenteId,

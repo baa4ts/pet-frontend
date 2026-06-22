@@ -8,7 +8,7 @@ type E = {
 
 export const actionNuevaAusencia = async (value: E): Promise<boolean> => {
   try {
-    await api.post("/ausencias", {
+    await api.post("/examenes", {
       materia: value.materia,
       fecha: new Date(value.fecha).toISOString(),
       docenteId: value.docenteId,

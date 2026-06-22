@@ -2,6 +2,6 @@
 import { api } from "@/configuracion/Axios";
 
 export const actionGetAusenciaUnica = async (id: number): Promise<Ausencia> => {
-  const response = await api.get<ServerResponse<Ausencia>>(`/ausencias/${id}`);
+  const response = await api.get<ServerResponse<Ausencia>>(`/examenes/${id}`);
   return response.data.data[0];
 };
