@@ -25,7 +25,6 @@ import EventosForm from "@/paginas/nuevos/EventosForm";
 import NoticiasForm from "@/paginas/nuevos/NoticiasForm";
 import { PermisosForm } from "@/paginas/nuevos/PermisosForm";
 import RecursosForm from "@/paginas/nuevos/RecursosForm";
-import AusenciaPDFPage from "@/paginas/pdf/PDFview";
 import { SelectorUsuarios } from "@/paginas/selector/SelectorUsuarios";
 import VentanaAusencia from "@/paginas/ventanas/VentanaAusencia";
 import VentanaEvento from "@/paginas/ventanas/VentanaEvento";

@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 
-import { FilePdfIcon, PencilSimple, WarningCircle } from "@phosphor-icons/react";
+import {  PencilSimple, WarningCircle } from "@phosphor-icons/react";
 
 import { AgregarAlgo } from "@/components/dashboard/AgregarAlgo";
 import { EliminarAlgo } from "@/components/dashboard/EliminarAlgo";
